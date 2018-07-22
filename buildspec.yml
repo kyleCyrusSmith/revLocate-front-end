@@ -12,7 +12,7 @@ phases:
             - ng build --prod
     post_build:
          commands:
-            - aws s3 sync --delete dist/revLocate-front-end s3://revlocate
+            - aws s3 sync --delete dist/revLocate-front-end s3://revLocate-front-end
             - echo Build completed on `date`
 artifacts:
     files:
