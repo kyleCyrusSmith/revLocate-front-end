@@ -1,0 +1,15 @@
+<div class="container centered col-5 shadow p-4 my-4 shadow bg-light rounded">
+  <h2 class="text-center">Login</h2>
+  <hr>
+  <mat-form-field class="form-group col centered">
+    <input matInput placeholder="Username/Email">
+  </mat-form-field>
+  <mat-form-field class="form-group col centered">
+    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
+    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+  </mat-form-field>
+  <br>
+  <div class="justify-content-end d-flex">
+    <button mat-button color="primary">Login</button>
+  </div>
+</div>
