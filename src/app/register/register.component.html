@@ -1,3 +1,47 @@
-<p>
-  register works!
-</p>
+<div class="container centered col-5 shadow p-4 my-4 shadow bg-light rounded">
+  <h2 class="text-center">Register</h2>
+  <hr>
+  <div class="form-group">
+    <label for="inputFirstName">Firstname</label>
+    <input type="text" class="form-control" id="inputFirstName" placeholder="Firstname">
+  </div>
+  <mat-form-field class="form-group col centered">
+    <input matInput placeholder="Username/Email">
+  </mat-form-field>
+  <div class="form-group">
+    <label for="inputLastName">Lastname</label>
+    <input type="text" class="form-control" id="inputLastName" placeholder="Lastname">
+  </div>
+  <div class="form-group">
+    <label for="inputEmail">Email address</label>
+    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailExist emailInvalid" placeholder="Email address">
+    <small id="emailExist" class="form-text text-danger" style="">That email already exist.</small>
+    <small id="emailInvalid" class="form-text text-danger" style="">Must enter a valid email.</small>
+  </div>
+  <div class="form-group">
+    <label for="inputUserName">Username</label>
+    <input type="text" class="form-control" id="inputUserName" aria-describedby="userNameExist" placeholder="Username">
+    <small id="userNameExist" class="form-text text-danger" style="">That username already exist.</small>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">Password</label>
+    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="inputPasswordConfirm">Confirm Password</label>
+    <input type="password" class="form-control" aria-describedby="passwordsMatch" id="inputPasswordConfirm" placeholder="Password">
+    <small id="passwordsMatch" class="form-text text-danger" style="">Passwords did not match.</small>
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="roleCheckBox">
+    <label class="form-check-label" for="roleCheckBox">Check if management</label>
+  </div>
+  <br>
+  <div class="row rounded">
+    <div class="col-1"></div>
+    <div class="col centered rounded d-flex justify-content-center pt-1 text-body bg-warning" id="register-message">All fields must be complete!</div>
+    <div class="col-3" align="right">
+      <button type="submit" class="btn btn-primary" id="register">Register</button>
+    </div>
+  </div>
+</div>
