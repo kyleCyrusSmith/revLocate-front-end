@@ -22,11 +22,21 @@ const DUMMY_POPULAR_SET_DATA: PopularSet[] = [
 export class PopularSetsComponent implements OnInit {
 
   displayedColumns: string[] = ['setName', 'rating', 'highscore'];
-  dataSource = DUMMY_POPULAR_SET_DATA;
+  dataSource = sortByRating(DUMMY_POPULAR_SET_DATA).reverse();
 
   constructor() { }
 
   ngOnInit() {
   }
 
+}
+
+function sortByRating(ratingArray: PopularSet[]): PopularSet[] {
+  return ratingArray.sort(function (a, b) {
+    const x = a.rating;
+    const y = b.rating;
+    if (x < y) { return -1; }
+    if (x > y) { return 1; }
+    return 0;
+  });
 }
