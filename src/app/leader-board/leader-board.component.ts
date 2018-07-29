@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/user';
 
 export interface UserScore {
   username: String;

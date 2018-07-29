@@ -2,13 +2,12 @@
     <h2 class="text-center">Leader Board</h2>
     <hr>
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- username Column -->
+        
         <ng-container matColumnDef="username">
           <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
           <mat-cell *matCellDef="let userScore"> {{userScore.username}} </mat-cell>
         </ng-container>
-      
-        <!-- Name Column -->
+
         <ng-container matColumnDef="highscore">
           <mat-header-cell *matHeaderCellDef> Highscore </mat-header-cell>
           <mat-cell *matCellDef="let userScore"> {{userScore.highscore}} </mat-cell>

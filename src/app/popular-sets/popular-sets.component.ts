@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface PopularSet {
+  setName: String;
+  rating: Number;
+  highscore: Number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+const DUMMY_POPULAR_SET_DATA: PopularSet[] = [
+  {setName: 'Testset',   rating: 4,    highscore: 1079},
+  {setName: 'Someset',   rating: 3,    highscore: 355},
+  {setName: 'Dummyset',  rating: 5,    highscore: 479},
+  {setName: 'Newset',    rating: 4.5,  highscore: 108},
+  {setName: 'Oldset',    rating: 3.7,  highscore: 155},
 ];
 
 @Component({
@@ -22,8 +21,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class PopularSetsComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['setName', 'rating', 'highscore'];
+  dataSource = DUMMY_POPULAR_SET_DATA;
 
   constructor() { }
 
