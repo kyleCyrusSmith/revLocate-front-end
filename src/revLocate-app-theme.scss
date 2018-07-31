@@ -1,0 +1,7 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$revLocate-app-theme-primary: mat-palette($mat-light-blue, 300, 100, 600);
+$revLocate-app-theme-accent:  mat-palette($mat-gray, 200, 100, 400);
+$revLocate-app-theme-warn:    mat-palette($mat-orange);
+$revLocate-app-theme-theme: mat-light-theme($revLocate-app-theme-primary, $revLocate-app-theme-accent, $revLocate-app-theme-warn);
+@include angular-material-theme($revLocate-app-theme-theme);
