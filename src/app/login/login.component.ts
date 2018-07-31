@@ -24,6 +24,21 @@ export class LoginComponent implements OnInit {
     }
   }
 
+    login() {
+      this.userService.loginUser(this.user).subscribe(response => {
+        console.log(`response status from login component: ` + response.status);
+        if (response.status === 200) {
+          this.isValid = true;
+          localStorage.setItem('user', JSON.stringify(this.user));
+          console.log(`User, ${this.user.username}, successfully logged in!`);
+          console.log(`local storage user: ` + localStorage.getItem('user'));
+          this.router.navigate(['home']);
+        } else {
+          this.isValid = false;
+        }
+      });
+    }
+  /*
   login() {
     this.userService.loginUser(this.user).subscribe(response => {
       console.log(`response status from login component: ` + response.status);
@@ -34,10 +49,8 @@ export class LoginComponent implements OnInit {
         console.log(`local storage user: ` + localStorage.getItem('user'));
         this.router.navigate(['home']);
       } else {
-        this.router.navigate(['login']);
         this.isValid = false;
       }
     });
-  }
-
+  }*/
 }

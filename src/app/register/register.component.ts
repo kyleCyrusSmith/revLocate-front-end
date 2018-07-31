@@ -66,7 +66,6 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['login']);
         } else {
           console.log(`Unable to register user`);
-          this.router.navigate(['register']);
           this.isValid = false;
         }
       });
