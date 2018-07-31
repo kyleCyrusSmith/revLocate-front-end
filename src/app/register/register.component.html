@@ -35,6 +35,10 @@
   </mat-form-field>
   <br>
   <div class="justify-content-end d-flex">
-    <button mat-raised-button color="primary">Register</button>
+    <button mat-raised-button color="primary" (click)="register()">Register</button>
   </div>
+</div>
+
+<div *ngIf="!isValid" class="alert alert-danger" id="formError">
+  Invalid or Missing Credentials!
 </div>
