@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeaderBoardComponent } from './leader-board/leader-board.component';
 import { PopularSetsComponent } from './popular-sets/popular-sets.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MessageBarComponent } from './message-bar/message-bar.component';
     MatToolbarModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
