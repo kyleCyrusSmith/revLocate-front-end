@@ -7,8 +7,7 @@ import { environment } from '../environments/environment';
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({
     'Content-type': 'application/json'
-  }),
-  observe: 'response'
+  })
 };
 
 @Injectable({
@@ -29,12 +28,18 @@ export class UserService {
     console.log(`Attempting to login user: ${user.username}`);
     const json = JSON.stringify(user);
     console.log(`JSON: ` + json);
-    return this.http.post<User>(environment.apiUrl + 'user/login', json, HTTP_OPTIONS)
-}
+    return this.http.post<User>(environment.apiUrl + 'user/login', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
 
   public registerUser(user: User) {
     console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
-    return this.http.post<User>(environment.apiUrl + 'user/register', json, HTTP_OPTIONS);
+    return this.http.post<User>(environment.apiUrl + 'user/register', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
   }
 }
