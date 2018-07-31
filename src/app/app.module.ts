@@ -22,7 +22,6 @@ import { PopularSetsComponent } from './popular-sets/popular-sets.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
-import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { LogoutComponent } from './logout/logout.component';
     NavbarComponent,
     LeaderBoardComponent,
     PopularSetsComponent,
-    MessageBarComponent,
-    LogoutComponent
+    MessageBarComponent
   ],
   imports: [
     BrowserModule,
