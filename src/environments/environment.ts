@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://revlocate-bucket.s3-website.us-east-2.amazonaws.com/'
+  apiUrl: 'http://revlocate-env.msndw326ps.us-east-2.elasticbeanstalk.com/'
 };
 
 /*

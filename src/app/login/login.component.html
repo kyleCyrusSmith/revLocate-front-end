@@ -1,15 +1,19 @@
-<div class="container centered col-5 shadow p-4 my-4 shadow bg-light rounded">
+<div class="container centered col-5 p-4 my-4 mat-elevation-z3 rounded" color="primary">
   <h2 class="text-center">Login</h2>
   <hr>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Username/Email">
+    <input matInput placeholder="Username/Email" [(ngModel)]="user.username">
   </mat-form-field>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
+    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password">
     <mat-icon matSuffix color="primary" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <br>
   <div class="justify-content-end d-flex">
-    <button mat-raised-button color="primary">Login</button>
+    <button mat-raised-button color="primary" (click)="login()">Login</button>
   </div>
+</div>
+
+<div *ngIf="!isValid" class="alert alert-danger" id="formError">
+  Invalid or Missing Credentials!
 </div>

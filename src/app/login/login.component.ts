@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -8,11 +10,34 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  user: User = new User();
+  loggedUser = localStorage.getItem('user');
+  isValid = true;
+
   hide = true;
 
-  constructor(private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    if (this.loggedUser != null) {
+      this.router.navigate(['home']);
+    }
+  }
+
+  login() {
+    this.userService.loginUser(this.user).subscribe(response => {
+      console.log(`response status from login component: ` + response.status);
+      if (response.status === 200) {
+        this.isValid = true;
+        localStorage.setItem('user', JSON.stringify(this.user));
+        console.log(`User, ${this.user.username}, successfully logged in!`);
+        console.log(`local storage user: ` + localStorage.getItem('user'));
+        this.router.navigate(['home']);
+      } else {
+        this.router.navigate(['login']);
+        this.isValid = false;
+      }
+    });
   }
 
 }
