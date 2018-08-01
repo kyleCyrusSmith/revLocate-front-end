@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     if (this.loggedUser == null) {
-      this.router.navigate(['home']);
+      this.router.navigate(['login']);
     } else {
       this.loggedUser = JSON.parse(this.loggedUser);
     }
@@ -58,8 +58,8 @@ export class ProfileComponent implements OnInit {
       this.confirmPasswordFormControl.hasError('required')) {
       console.log(`profile is missing fields`);
       this.isValid = false;
-//      this.router.navigate(['profile']);
-      }/* else {
+      //      this.router.navigate(['profile']);
+    }/* else {
       this.userService.updateUser(this.user).subscribe(response => {
         console.log(`response status from profile component: ` + response.status);
         if (response.status === 202) {
