@@ -28,7 +28,7 @@ export class UserService {
     console.log(`Attempting to login user: ${user.username}`);
     const json = JSON.stringify(user);
     console.log(`JSON: ` + json);
-    return this.http.post<User>(environment.apiUrl + 'user/login', json, {
+    return this.http.post<User>(environment.apiUrl + 'users/login', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });
@@ -58,7 +58,7 @@ export class UserService {
   public registerUser(user: User) {
     console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
-    return this.http.post<User>(environment.apiUrl + 'user/register', json, {
+    return this.http.post<User>(environment.apiUrl + 'users', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });

@@ -1,0 +1,39 @@
+<mat-nav-list>
+
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        
+                <ng-container matColumnDef="username">
+                  <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+                  <mat-cell *matCellDef="let userScore"> {{userScore.username}} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="highscore">
+                  <mat-header-cell *matHeaderCellDef> Highscore </mat-header-cell>
+                  <mat-cell *matCellDef="let userScore"> {{userScore.highscore}} </mat-cell>
+                </ng-container>
+              
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openBottomSheet(row)"></mat-row>
+              </mat-table>
+
+
+        <a href="https://keep.google.com/" mat-list-item (click)="openLink($event)">
+          <span mat-line>Google Keep</span>
+          <span mat-line>Add to a note</span>
+        </a>
+      
+        <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
+          <span mat-line>Google Docs</span>
+          <span mat-line>Embed in a document</span>
+        </a>
+      
+        <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
+          <span mat-line>Google Plus</span>
+          <span mat-line>Share with your friends</span>
+        </a>
+      
+        <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
+          <span mat-line>Google Hangouts</span>
+          <span mat-line>Show to your coworkers</span>
+        </a>
+      </mat-nav-list>
