@@ -58,7 +58,7 @@ export class UserService {
   public registerUser(user: User) {
     console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
-    return this.http.post<User>(environment.apiUrl + 'users/register', json, {
+    return this.http.post<User>(environment.apiUrl + 'users', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });
