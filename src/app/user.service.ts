@@ -24,15 +24,15 @@ export class UserService {
     }
   }
 
-    public loginUser(user: User) {
-      console.log(`Attempting to login user: ${user.username}`);
-      const json = JSON.stringify(user);
-      console.log(`JSON: ` + json);
-      return this.http.post<User>(environment.apiUrl + 'user/login', json, {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        observe: 'response'
-      });
-    }
+  public loginUser(user: User) {
+    console.log(`Attempting to login user: ${user.username}`);
+    const json = JSON.stringify(user);
+    console.log(`JSON: ` + json);
+    return this.http.post<User>(environment.apiUrl + 'user/login', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
   /*
   public loginUser(user: User) {
     console.log(`Attempting to login user: ${user.username}`);
@@ -63,4 +63,14 @@ export class UserService {
       observe: 'response'
     });
   }
+  /*
+    public updateUser(user: User) {
+      console.log(`Attempting to update user: ${user.username}`);
+      const json = JSON.stringify(user);
+      return this.http.put<User>(environment.apiUrl + 'user/update', json, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        observe: 'response'
+      });
+    }
+    */
 }

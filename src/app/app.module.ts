@@ -22,6 +22,7 @@ import { PopularSetsComponent } from './popular-sets/popular-sets.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { StatusCodeHandlerService } from './status-code-handler.service';
     NavbarComponent,
     LeaderBoardComponent,
     PopularSetsComponent,
-    MessageBarComponent
+    MessageBarComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

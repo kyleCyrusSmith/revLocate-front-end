@@ -5,19 +5,19 @@ import { User } from '../models/user';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
   isValid = true;
   loggedUser = localStorage.getItem('user');
 
+  user: User = new User();
+
   hidePassword = true;
   hideConfirmPassword = true;
-
-  user: User = new User();
 
   confirmedPassword: String;
 
@@ -45,31 +45,34 @@ export class RegisterComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    if (this.loggedUser != null) {
+    if (this.loggedUser == null) {
       this.router.navigate(['home']);
+    } else {
+      this.loggedUser = JSON.parse(this.loggedUser);
     }
   }
 
-  register() {
+  updateProfile() {
     if (this.usernameFormControl.hasError('required') || this.passwordFormControl.hasError('required') ||
       this.emailFormControl.hasError('email') || this.emailFormControl.hasError('required') ||
       this.confirmPasswordFormControl.hasError('required')) {
-      console.log(`registration is missing fields`);
+      console.log(`profile is missing fields`);
       this.isValid = false;
-      this.router.navigate(['register']);
-    } else {
-      this.userService.registerUser(this.user).subscribe(response => {
-        console.log(`response status from register component: ` + response.status);
+//      this.router.navigate(['profile']);
+      }/* else {
+      this.userService.updateUser(this.user).subscribe(response => {
+        console.log(`response status from profile component: ` + response.status);
         if (response.status === 202) {
           this.isValid = true;
-          console.log(`User, ${this.user.username}, successfully registered!`);
-          this.router.navigate(['login']);
+          console.log(`User, ${this.user.username}, successfully updated!`);
+          localStorage.clear();
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this.router.navigate(['home']);
         } else {
-          console.log(`Unable to register user`);
+          console.log(`Unable to update user`);
           this.isValid = false;
         }
       });
-    }
+    } */
   }
-
 }

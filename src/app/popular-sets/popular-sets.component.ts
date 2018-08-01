@@ -7,11 +7,11 @@ export interface PopularSet {
 }
 
 const DUMMY_POPULAR_SET_DATA: PopularSet[] = [
-  {setName: 'Testset',   rating: 4,    highscore: 1079},
-  {setName: 'Someset',   rating: 3,    highscore: 355},
-  {setName: 'Dummyset',  rating: 5,    highscore: 479},
-  {setName: 'Newset',    rating: 4.5,  highscore: 108},
-  {setName: 'Oldset',    rating: 3.7,  highscore: 155},
+  { setName: 'Testset', rating: 4, highscore: 1079 },
+  { setName: 'Someset', rating: 3, highscore: 355 },
+  { setName: 'Dummyset', rating: 5, highscore: 479 },
+  { setName: 'Newset', rating: 4.5, highscore: 108 },
+  { setName: 'Oldset', rating: 3.7, highscore: 155 },
 ];
 
 @Component({
