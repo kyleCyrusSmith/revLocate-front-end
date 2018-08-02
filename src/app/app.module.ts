@@ -55,6 +55,7 @@ import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
+import { PlayGameComponent } from './play-game/play-game.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ProfileComponent } from './profile/profile.component';
     MessageBarComponent,
     ProfileComponent,
     LeaderBoardBottomSheetComponent,
-    PopularSetBottomSheetComponent
+    PopularSetBottomSheetComponent,
+    PlayGameComponent
   ],
   imports: [
     BrowserModule,

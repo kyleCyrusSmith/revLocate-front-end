@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
 
 export interface PopularSet {
   setName: String;
@@ -48,11 +49,12 @@ export class PopularSetBottomSheetComponent {
   displayedColumns: string[] = ['setName', 'rating', 'highscore'];
   dataSource: PopularSet[] = [{ setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>) {}
+  constructor(private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>, private router: Router) {}
 
   playSet() {
     console.log(`play set`);
     this.bottomSheetRef.dismiss();
+    this.router.navigate(['play']);
     /* add a link to start a solo game of this set
     */
   }
