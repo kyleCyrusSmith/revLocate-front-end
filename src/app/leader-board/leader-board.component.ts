@@ -49,9 +49,18 @@ export class LeaderBoardBottomSheetComponent {
 
   constructor(private bottomSheetRef: MatBottomSheetRef<LeaderBoardBottomSheetComponent>) {}
 
-  openLink(event: MouseEvent): void {
+  challengeUser() {
+    console.log(`challenge user`);
     this.bottomSheetRef.dismiss();
-    event.preventDefault();
+    /* add a link to start a solo game that compares final scores
+    */
+  }
+
+  addFriend() {
+    console.log(`add friend`);
+    this.bottomSheetRef.dismiss();
+    /* add function to userService to add friend
+    */
   }
 
 }

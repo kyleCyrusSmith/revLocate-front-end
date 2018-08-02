@@ -50,7 +50,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeaderBoardComponent, LeaderBoardBottomSheetComponent } from './leader-board/leader-board.component';
-import { PopularSetsComponent } from './popular-sets/popular-sets.component';
+import { PopularSetsComponent, PopularSetBottomSheetComponent } from './popular-sets/popular-sets.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
@@ -67,7 +67,8 @@ import { ProfileComponent } from './profile/profile.component';
     PopularSetsComponent,
     MessageBarComponent,
     ProfileComponent,
-    LeaderBoardBottomSheetComponent
+    LeaderBoardBottomSheetComponent,
+    PopularSetBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +88,7 @@ import { ProfileComponent } from './profile/profile.component';
     MatBottomSheetModule,
     MatListModule
   ],
-  entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent],
+  entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent, PopularSetsComponent, PopularSetBottomSheetComponent],
   providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   bootstrap: [AppComponent]
 })
