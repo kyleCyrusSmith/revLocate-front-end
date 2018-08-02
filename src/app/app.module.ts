@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -20,6 +21,7 @@ import { LeaderBoardComponent } from './leader-board/leader-board.component';
 import { PopularSetsComponent } from './popular-sets/popular-sets.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PlayComponent } from './play/play.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     NavbarComponent,
     LeaderBoardComponent,
     PopularSetsComponent,
-    MessageBarComponent
+    MessageBarComponent,
+    PlayComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
