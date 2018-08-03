@@ -42,6 +42,8 @@ import {
   MatBottomSheet,
 } from '@angular/material';
 
+import { AgmCoreModule } from '@agm/core';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -57,6 +59,8 @@ import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
 import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
+import { CreateSetComponent } from './create-set/create-set.component';
+import { CreateLocationComponent } from './create-location/create-location.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +77,9 @@ import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/
     ProfileComponent,
     PlayGameComponent,
     GameLobbyComponent,
-    GameLobbyBottomSheetComponent
+    GameLobbyBottomSheetComponent,
+    CreateSetComponent,
+    CreateLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -92,12 +98,16 @@ import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/
     MatCardModule,
     MatBottomSheetModule,
     MatListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0'
+    })
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
     GameLobbyComponent, GameLobbyBottomSheetComponent],
-  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+//  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
