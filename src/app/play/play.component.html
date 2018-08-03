@@ -1,18 +1,25 @@
-<script async defer
+<!-- <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-utils/modules/event/event.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-map/src/map.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onGoogleReady"></script>
+<script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0">
-  </script>
+  </script> -->
 <mat-card class="game-card my-4">
   <mat-card-header color="primary">
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-  <div #gmap style="width: 100%; height: 500px;" id="map"></div>
-  <div id="pano"></div>
-  
+    <div id="wrapper" style="position: relative;">
+      <div style="width: 100%; height: 525px;" id="panorama"></div>
+
+      <div id="floatMap" style="position: absolute; top: 52%; left: 72%; z-index: 98; width: 250px; height: 200px; opacity: .8;">
+      </div>
+      <div style="position: absolute; top: 90%; left: 80%; z-index: 99; opacity: 1;">
+        <button mat-raised-button color="primary">GUESS LOCATION</button>
+      </div>
+    </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
+
   </mat-card-actions>
 </mat-card>
