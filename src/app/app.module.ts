@@ -56,6 +56,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
 import { PlayGameComponent } from './play-game/play-game.component';
+import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
 
 @NgModule({
   declarations: [
@@ -65,12 +66,14 @@ import { PlayGameComponent } from './play-game/play-game.component';
     RegisterComponent,
     NavbarComponent,
     LeaderBoardComponent,
+    LeaderBoardBottomSheetComponent,
     PopularSetsComponent,
+    PopularSetBottomSheetComponent,
     MessageBarComponent,
     ProfileComponent,
-    LeaderBoardBottomSheetComponent,
-    PopularSetBottomSheetComponent,
-    PlayGameComponent
+    PlayGameComponent,
+    GameLobbyComponent,
+    GameLobbyBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -88,9 +91,12 @@ import { PlayGameComponent } from './play-game/play-game.component';
     HttpClientModule,
     MatCardModule,
     MatBottomSheetModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule
   ],
-  entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent, PopularSetsComponent, PopularSetBottomSheetComponent],
+  entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
+    PopularSetsComponent, PopularSetBottomSheetComponent,
+    GameLobbyComponent, GameLobbyBottomSheetComponent],
   providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   bootstrap: [AppComponent]
 })
