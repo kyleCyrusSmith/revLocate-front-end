@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
 
 export interface PopularSet {
   setName: String;
@@ -14,6 +16,8 @@ const DUMMY_POPULAR_SET_DATA: PopularSet[] = [
   { setName: 'Oldset', rating: 3.7, highscore: 155 },
 ];
 
+let rowClicked;
+
 @Component({
   selector: 'app-popular-sets',
   templateUrl: './popular-sets.component.html',
@@ -24,9 +28,35 @@ export class PopularSetsComponent implements OnInit {
   displayedColumns: string[] = ['setName', 'rating', 'highscore'];
   dataSource = sortByRating(DUMMY_POPULAR_SET_DATA).reverse();
 
-  constructor() { }
+  constructor(private bottomSheet: MatBottomSheet) { }
+
+  openBottomSheet(row): void {
+    rowClicked = row;
+    this.bottomSheet.open(PopularSetBottomSheetComponent);
+  }
 
   ngOnInit() {
+  }
+
+}
+
+@Component({
+  selector: 'app-popular-sets-bottom-sheet',
+  templateUrl: './popular-sets-bottom-sheet.component.html',
+})
+export class PopularSetBottomSheetComponent {
+
+  displayedColumns: string[] = ['setName', 'rating', 'highscore'];
+  dataSource: PopularSet[] = [{ setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore }];
+
+  constructor(private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>, private router: Router) {}
+
+  playSet() {
+    console.log(`play set`);
+    this.bottomSheetRef.dismiss();
+    this.router.navigate(['play']);
+    /* add a link to start a solo game of this set
+    */
   }
 
 }
