@@ -1,10 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-
 import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
-declare const google: any;
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-play',
@@ -16,6 +14,7 @@ export class PlayComponent implements OnInit {
   map: google.maps.Map;
   panorama: google.maps.StreetViewPanorama;
   created = false;
+  polyCreated = false;
   marker;
   lat: number;
   lng: number;
@@ -26,7 +25,10 @@ export class PlayComponent implements OnInit {
   polyLine: google.maps.Polyline;
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private bottomSheet: MatBottomSheet) {}
+
+  openBottomSheet(): void {
+    this.bottomSheet.open(PlayBottomSheetComponent);
   }
 
   ngOnInit () {
@@ -47,8 +49,6 @@ export class PlayComponent implements OnInit {
       });
     this.lat2 = this.panorama.getPosition().lat();
     this.lng2 = this.panorama.getPosition().lng();
-    console.log(this.lat2);
-    console.log(this.lng2);
     this.map = new google.maps.Map(
       document.getElementById('floatMap'), {
         center: new google.maps.LatLng(0, 0),
@@ -60,14 +60,10 @@ export class PlayComponent implements OnInit {
       });
     google.maps.event.addListener(this.map, 'click', (event) => {
       this.placeMarker2(event.latLng);
-      console.log(this.lat + ' ' + this.lng);
-      this.polyLines();
     });
-
   }
 
   public placeMarker2 (location) {
-    console.log('this creadted = ' + this.created);
     if (this.created) {
       this.marker.setPosition(location);
     } else {
@@ -79,11 +75,8 @@ export class PlayComponent implements OnInit {
       });
     }
     this.map.setCenter(this.marker.getPosition());
-    this.lat = this.marker.getPosition().lat();
-    this.lng = this.marker.getPosition().lng();
-    this.distance = this.calcDistance(this.lat, this.lng, this.lat2, this.lng2);
-    console.log(this.distance);
   }
+
   public calcDistance (lat: number, lng: number, lat2: number, lng2: number): number {
     const R = 6371e3; // metres
     const φ1 = lat * Math.PI / 180;
@@ -97,15 +90,50 @@ export class PlayComponent implements OnInit {
   }
 
   public polyLines () {
-    this.polyLineList = [{lat: this.lat, lng: this.lng}, {lat: this.lat2, lng: this.lng2}];
-    this.polyLine = new google.maps.Polyline({
-      path: this.polyLineList,
-      geodesic: false,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-
+    this.polyLineList = [{ lat: this.lat, lng: this.lng }, { lat: this.lat2, lng: this.lng2 }];
+    if (this.polyCreated) {
+      this.polyLine.setPath(this.polyLineList);
+    } else {
+      this.polyCreated = true;
+      this.polyLine = new google.maps.Polyline({
+        path: this.polyLineList,
+        geodesic: false,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+    }
     this.polyLine.setMap(this.map);
   }
+
+  public submitAns () {
+    this.lat = this.marker.getPosition().lat();
+    this.lng = this.marker.getPosition().lng();
+    this.distance = this.calcDistance(this.lat, this.lng, this.lat2, this.lng2);
+    this.polyLines();
+    this.bottomSheet.open(PlayBottomSheetComponent);
+  }
+}
+@Component({
+  selector: 'app-play-bottom-sheet',
+  templateUrl: './play-bottom-sheet.component.html',
+})
+export class PlayBottomSheetComponent {
+
+  constructor(private bottomSheetRef: MatBottomSheetRef<PlayBottomSheetComponent>) {}
+
+  challengeUser() {
+    console.log(`challenge user`);
+    this.bottomSheetRef.dismiss();
+    /* add a link to start a solo game that compares final scores
+    */
+  }
+
+  addFriend() {
+    console.log(`add friend`);
+    this.bottomSheetRef.dismiss();
+    /* add function to userService to add friend
+    */
+  }
+
 }
