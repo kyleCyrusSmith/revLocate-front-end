@@ -96,7 +96,8 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     MatCardModule,
     MatBottomSheetModule,
     MatListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressBarModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
