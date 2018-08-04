@@ -12,7 +12,7 @@ import { UserService } from '../user.service';
 export class ProfileComponent implements OnInit {
 
   isValid = true;
-  loggedUser = localStorage.getItem('user');
+  loggedUser = JSON.parse(localStorage.getItem('user'));
 
   user: User = new User();
 
@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
     if (this.loggedUser == null) {
       this.router.navigate(['login']);
     } else {
-      this.loggedUser = JSON.parse(this.loggedUser);
+      this.user.userId = this.loggedUser.userId;
     }
   }
 
@@ -59,20 +59,20 @@ export class ProfileComponent implements OnInit {
       console.log(`profile is missing fields`);
       this.isValid = false;
       //      this.router.navigate(['profile']);
-    }/* else {
+    } else {
       this.userService.updateUser(this.user).subscribe(response => {
         console.log(`response status from profile component: ` + response.status);
         if (response.status === 202) {
           this.isValid = true;
-          console.log(`User, ${this.user.username}, successfully updated!`);
+          console.log(`User, ${response.body.username}, successfully updated!`);
           localStorage.clear();
-          localStorage.setItem('user', JSON.stringify(this.user));
+          localStorage.setItem('user', JSON.stringify(response.body));
           this.router.navigate(['home']);
         } else {
           console.log(`Unable to update user`);
           this.isValid = false;
         }
       });
-    } */
+    }
   }
 }
