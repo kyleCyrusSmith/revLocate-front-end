@@ -59,7 +59,7 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
-import { FriendsComponent } from './friends/friends.component';
+import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends.component';
 import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
 import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
@@ -84,6 +84,7 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     CreateSetComponent,
     CreateLocationComponent,
     FriendsComponent,
+    FriendsBottomSheetComponent,
     PlayBottomSheetComponent
   ],
   imports: [
@@ -104,11 +105,13 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     MatBottomSheetModule,
     MatListModule,
     MatPaginatorModule,
+    MatSortModule,
     MatProgressBarModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
-    GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent],
+    GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent,
+    FriendsComponent, FriendsBottomSheetComponent],
 //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]

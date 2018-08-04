@@ -5,10 +5,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { PlayComponent } from './play/play.component';
+import { FriendsComponent } from './friends/friends.component';
 
 const ROUTES: Routes = [
   {
@@ -43,6 +43,10 @@ const ROUTES: Routes = [
   {
     path: 'create',
     component: CreateSetComponent
+  },
+  {
+    path: 'friends',
+    component: FriendsComponent
   }
 ];
 
