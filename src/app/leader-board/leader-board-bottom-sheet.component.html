@@ -1,0 +1,25 @@
+<mat-nav-list>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+      <mat-cell *matCellDef="let userScore"> {{userScore.username}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="highscore">
+      <mat-header-cell *matHeaderCellDef> Highscore </mat-header-cell>
+      <mat-cell *matCellDef="let userScore"> {{userScore.highscore}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <a mat-list-item (click)="challengeUser()">
+    <span mat-line style="text-align: center">Challenge User</span>
+  </a>
+
+  <a mat-list-item (click)="addFriend()">
+    <span mat-line style="text-align: center">Add Friend</span>
+  </a>
+</mat-nav-list>

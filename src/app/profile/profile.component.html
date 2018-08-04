@@ -1,8 +1,8 @@
-<div class="container centered col-5 shadow p-4 my-4 shadow bg-light rounded">
-  <h2 class="text-center">Register</h2>
+<div class="container centered col-5 shadow p-4 my-4 shadow rounded" color="secondary">
+  <h2 class="text-center">Profile</h2>
   <hr>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Email" [formControl]="emailFormControl" [(ngModel)]="user.email">
+    <input matInput placeholder="{{loggedUser.email}}" [formControl]="emailFormControl" [(ngModel)]="user.email">
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
       Please enter a valid email address
     </mat-error>
@@ -12,7 +12,7 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="user.username">
+    <input matInput placeholder="{{loggedUser.username}}" [formControl]="usernameFormControl" [(ngModel)]="user.username">
     <mat-error *ngIf="usernameFormControl.hasError('required')">
       Username is
       <strong>required</strong>
@@ -41,7 +41,7 @@
   </mat-form-field>
   <br>
   <div class="justify-content-end d-flex">
-    <button mat-raised-button color="primary" (click)="register()">Register</button>
+    <button mat-raised-button color="primary" (click)="updateProfile()">Update</button>
   </div>
 </div>
 

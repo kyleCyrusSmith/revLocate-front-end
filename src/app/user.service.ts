@@ -28,18 +28,49 @@ export class UserService {
     console.log(`Attempting to login user: ${user.username}`);
     const json = JSON.stringify(user);
     console.log(`JSON: ` + json);
+    return this.http.post<User>(environment.apiUrl + 'users/login', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+  /*
+  public loginUser(user: User) {
+    console.log(`Attempting to login user: ${user.username}`);
+    const json = JSON.stringify(user);
+    console.log(`JSON: ` + json);
     return this.http.post<User>(environment.apiUrl + 'user/login', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
+    }).map((res: Response) => {
+      if (res) {
+        if (res.status === 201) {
+          return [{ status: res.status, json: res }]
+        } else if (res.status === 200) {
+          return [{ status: res.status, json: res }]
+        }
+      }
+    }).catch((error: any) => {
+      if (error.status < 400 || error.status === 500) {
+        return Observable.throw(new Error(error.status));
+      }
     });
-  }
-
+  }*/
   public registerUser(user: User) {
     console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
-    return this.http.post<User>(environment.apiUrl + 'user/register', json, {
+    return this.http.post<User>(environment.apiUrl + 'users', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });
   }
+  /*
+    public updateUser(user: User) {
+      console.log(`Attempting to update user: ${user.username}`);
+      const json = JSON.stringify(user);
+      return this.http.put<User>(environment.apiUrl + 'user/update', json, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        observe: 'response'
+      });
+    }
+    */
 }

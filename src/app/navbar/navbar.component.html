@@ -1,15 +1,15 @@
 <mat-toolbar class="rounded mat-elevation-z3" color="secondary">
+  <a class="navbar-brand"> <img src="../../assets/revLocateLogo.svg" alt="revLocate Logo" style="height: 64px;"></a>
   <div class="col">
     <div class="d-flex">
-        <a href="#"> revLocate Logo </a>
-        <a mat-button color="secondary" routerLink="/home"> Home </a>
-        <a mat-button color="secondary" routerLink="/play"> Play </a>
     </div>
   </div>
   <div class="col">
     <div class="justify-content-end d-flex">
       <a mat-button color="secondary" routerLink="/login"> Login </a>
       <a mat-button color="secondary" routerLink="/register"> Register </a>
+      <a mat-button color="secondary" routerLink="/profile"> Profile </a>
+      <a mat-button color="secondary" (click)="ngOnInit()"> Logout </a>
     </div>
   </div>
 </mat-toolbar>
