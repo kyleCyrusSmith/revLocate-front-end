@@ -41,6 +41,7 @@ import {
   MatFormFieldModule,
   MatBottomSheet,
 } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -56,6 +57,9 @@ import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
 import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
+import { CreateSetComponent } from './create-set/create-set.component';
+import { CreateLocationComponent } from './create-location/create-location.component';
+import { FriendsComponent } from './friends/friends.component';
 import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
 import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
@@ -77,6 +81,9 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     PlayGameComponent,
     GameLobbyComponent,
     GameLobbyBottomSheetComponent,
+    CreateSetComponent,
+    CreateLocationComponent,
+    FriendsComponent,
     PlayBottomSheetComponent
   ],
   imports: [
@@ -102,7 +109,8 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
     GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent],
-  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+//  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

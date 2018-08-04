@@ -1,10 +1,13 @@
 export class Set {
     setId: number;
-    location1: number;
-    location2: number;
-    location3: number;
-    location4: number;
-    location5: number;
+    loc1Id: number;
+    loc2Id: number;
+    loc3Id: number;
+    loc4Id: number;
+    loc5Id: number;
+    authorId: number;
     rating: number;
-    hightScore: number;
+    totalRating: number;
+    totalRated: number;
+    highscore: number;
 }
