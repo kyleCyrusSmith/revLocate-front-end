@@ -4,12 +4,6 @@ import { User } from './models/user';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 
-const HTTP_OPTIONS = {
-  headers: new HttpHeaders({
-    'Content-type': 'application/json'
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })

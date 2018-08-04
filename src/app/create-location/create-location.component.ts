@@ -3,6 +3,8 @@ import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
+import { LocationService } from '../location.service';
+import { Location } from '../models/location';
 
 declare const google: any;
 
@@ -15,14 +17,16 @@ export class CreateLocationComponent implements OnInit, AfterViewInit {
 
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
+  lat: number;
+  lng: number;
 
-  constructor() { }
+  constructor(private locService: LocationService) { }
 
   ngOnInit() {
+    this.initialize();
   }
 
   ngAfterViewInit() {
-    this.initialize();
   }
 
   public initialize() {
@@ -41,9 +45,33 @@ export class CreateLocationComponent implements OnInit, AfterViewInit {
       });
     map.setStreetView(panorama);
 
-    panorama.addListener('position_changed', function() {
-      console.log(panorama.getPosition().lat());
+    panorama.addListener('position_changed', () => {
+      console.log(`new position: (${panorama.getPosition().lat()}, ${panorama.getPosition().lng()})`);
+      //      this.updateLatLng(panorama.getPosition().lat(), panorama.getPosition().lng());
+      this.lat = panorama.getPosition().lat();
+      this.lng = panorama.getPosition().lng();
     });
   }
 
+  public saveLocation() {
+    console.log(`in save location: ${this.lat}, ${this.lng}`);
+    const newLoc: Location = new Location;
+    newLoc.latitude = this.lat;
+    newLoc.longitude = this.lng;
+    newLoc.author = JSON.parse(localStorage.getItem('user')).username;
+    console.log(newLoc);
+    this.locService.saveLocation(newLoc);
+
+
+
+    this.locService.saveLocation(newLoc).subscribe(response => {
+      console.log(`response status from create location component: ` + response.status);
+      if (response.status === 202) {
+        console.log(`New location successfully created!`);
+      } else {
+        console.log(`Location creation failed. Status code: ${response.status}`);
+      }
+    });
+
+  }
 }

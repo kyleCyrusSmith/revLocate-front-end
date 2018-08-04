@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateLocationComponent } from '../create-location/create-location.component';
 
 @Component({
   selector: 'app-create-set',
@@ -12,4 +13,7 @@ export class CreateSetComponent implements OnInit {
   ngOnInit() {
   }
 
+  printLatLng() {
+    console.log('hey');
+  }
 }
