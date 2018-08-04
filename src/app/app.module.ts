@@ -61,7 +61,7 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
-import { FriendsComponent } from './friends/friends.component';
+import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +81,8 @@ import { FriendsComponent } from './friends/friends.component';
     GameLobbyBottomSheetComponent,
     CreateSetComponent,
     CreateLocationComponent,
-    FriendsComponent
+    FriendsComponent,
+    FriendsBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -107,8 +108,9 @@ import { FriendsComponent } from './friends/friends.component';
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
-    GameLobbyComponent, GameLobbyBottomSheetComponent],
-//  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+    GameLobbyComponent, GameLobbyBottomSheetComponent,
+    FriendsComponent, FriendsBottomSheetComponent],
+  //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -8,6 +8,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
+import { FriendsComponent } from './friends/friends.component';
 
 const ROUTES: Routes = [
   {
@@ -42,6 +43,10 @@ const ROUTES: Routes = [
   {
     path: 'create',
     component: CreateSetComponent
+  },
+  {
+    path: 'friends',
+    component: FriendsComponent
   }
 ];
 
