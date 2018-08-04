@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
       console.log(`response status from login component: ` + response.status);
       if (response.status === 200) {
         this.isValid = true;
-        localStorage.setItem('user', JSON.stringify(this.user));
-        console.log(`User, ${this.user.username}, successfully logged in!`);
+        localStorage.setItem('user', JSON.stringify(response.body));
+        console.log(`User, ${response.body.username}, successfully logged in!`);
         console.log(`local storage user: ` + localStorage.getItem('user'));
         this.router.navigate(['home']);
       } else {

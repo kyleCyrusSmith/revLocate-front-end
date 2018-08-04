@@ -27,28 +27,7 @@ export class UserService {
       observe: 'response'
     });
   }
-  /*
-  public loginUser(user: User) {
-    console.log(`Attempting to login user: ${user.username}`);
-    const json = JSON.stringify(user);
-    console.log(`JSON: ` + json);
-    return this.http.post<User>(environment.apiUrl + 'user/login', json, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      observe: 'response'
-    }).map((res: Response) => {
-      if (res) {
-        if (res.status === 201) {
-          return [{ status: res.status, json: res }]
-        } else if (res.status === 200) {
-          return [{ status: res.status, json: res }]
-        }
-      }
-    }).catch((error: any) => {
-      if (error.status < 400 || error.status === 500) {
-        return Observable.throw(new Error(error.status));
-      }
-    });
-  }*/
+
   public registerUser(user: User) {
     console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
@@ -57,14 +36,33 @@ export class UserService {
       observe: 'response'
     });
   }
-  /*
-    public updateUser(user: User) {
-      console.log(`Attempting to update user: ${user.username}`);
-      const json = JSON.stringify(user);
-      return this.http.put<User>(environment.apiUrl + 'user/update', json, {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        observe: 'response'
-      });
-    }
-    */
+
+  public updateUser(user: User) {
+    console.log(`Attempting to update user: ${user.username}`);
+    const json = JSON.stringify(user);
+    return this.http.put<User>(environment.apiUrl + 'users', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
+  public addFriend(currentUser: User, targetUser: User) {
+    console.log(`${currentUser.username} is attempting to add friend with id: ${targetUser.userId}`);
+    const json = JSON.stringify({currentUser, targetUser});
+    return this.http.post(environment.apiUrl + 'users/friends/add', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
+  // uri should be friends/{userId}
+  public getAllFriends(currentUser: User) {
+    console.log(`Getting all friends of ${currentUser.username}`);
+    const json = JSON.stringify(currentUser);
+    return this.http.get<User[]>(environment.apiUrl + 'users/friends', {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
 }

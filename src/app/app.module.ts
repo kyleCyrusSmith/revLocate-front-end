@@ -61,6 +61,7 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { CreateLocationComponent } from './create-location/create-location.compo
     GameLobbyComponent,
     GameLobbyBottomSheetComponent,
     CreateSetComponent,
-    CreateLocationComponent
+    CreateLocationComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,
