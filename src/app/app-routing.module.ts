@@ -24,6 +24,14 @@ const ROUTES: Routes = [
     path: 'register',
     component: RegisterComponent
   },
+    {
+    path: 'profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path: 'play',
     component: PlayComponent
