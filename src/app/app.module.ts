@@ -102,9 +102,7 @@ import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends
     MatBottomSheetModule,
     MatListModule,
     MatPaginatorModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0'
-    })
+    MatSortModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,

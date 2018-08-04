@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 export interface UserScore {
   username: String;
@@ -7,6 +8,16 @@ export interface UserScore {
 }
 
 const DUMMY_USER_SCORE_DATA: UserScore[] = [
+  { username: 'Testuser', highscore: 1079 },
+  { username: 'Someuser', highscore: 355 },
+  { username: 'Dummyuser', highscore: 479 },
+  { username: 'Newuser', highscore: 108 },
+  { username: 'Olduser', highscore: 155 },
+  { username: 'Testuser', highscore: 1079 },
+  { username: 'Someuser', highscore: 355 },
+  { username: 'Dummyuser', highscore: 479 },
+  { username: 'Newuser', highscore: 108 },
+  { username: 'Olduser', highscore: 155 },
   { username: 'Testuser', highscore: 1079 },
   { username: 'Someuser', highscore: 355 },
   { username: 'Dummyuser', highscore: 479 },
@@ -21,12 +32,18 @@ let rowClicked;
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['username', 'highscore'];
-  dataSource = sortByScore(DUMMY_USER_SCORE_DATA).reverse();
+  dataSource: MatTableDataSource<UserScore>;
 
-  constructor(private bottomSheet: MatBottomSheet) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private bottomSheet: MatBottomSheet) {
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(DUMMY_USER_SCORE_DATA);
+  }
 
   openBottomSheet(row): void {
     rowClicked = row;
@@ -34,6 +51,18 @@ export class FriendsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.paginator.pageSize = 5;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
 }
