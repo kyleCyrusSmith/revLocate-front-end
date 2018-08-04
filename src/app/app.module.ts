@@ -42,8 +42,6 @@ import {
   MatBottomSheet,
 } from '@angular/material';
 
-import { AgmCoreModule } from '@agm/core';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -62,6 +60,9 @@ import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
 import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends.component';
+import { } from '@types/googlemaps';
+import { } from '@types/google-maps';
+import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
 
 @NgModule({
   declarations: [
@@ -71,10 +72,11 @@ import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends
     RegisterComponent,
     NavbarComponent,
     LeaderBoardComponent,
-    LeaderBoardBottomSheetComponent,
     PopularSetsComponent,
-    PopularSetBottomSheetComponent,
     MessageBarComponent,
+    PlayComponent,
+    LeaderBoardBottomSheetComponent,
+    PopularSetBottomSheetComponent,
     ProfileComponent,
     PlayGameComponent,
     GameLobbyComponent,
@@ -82,7 +84,8 @@ import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends
     CreateSetComponent,
     CreateLocationComponent,
     FriendsComponent,
-    FriendsBottomSheetComponent
+    FriendsBottomSheetComponent,
+    PlayBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -102,13 +105,14 @@ import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends
     MatBottomSheetModule,
     MatListModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressBarModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
-    GameLobbyComponent, GameLobbyBottomSheetComponent,
+    GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent,
     FriendsComponent, FriendsBottomSheetComponent],
-  //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
+//  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]
 })
