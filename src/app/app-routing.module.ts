@@ -8,6 +8,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
+import { PlayComponent } from './play/play.component';
 
 const ROUTES: Routes = [
   {
@@ -23,7 +24,7 @@ const ROUTES: Routes = [
     path: 'register',
     component: RegisterComponent
   },
-  {
+    {
     path: 'profile',
     component: ProfileComponent
   },
@@ -33,7 +34,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'play',
-    component: PlayGameComponent
+    component: PlayComponent
   },
   {
     path: 'lobby',

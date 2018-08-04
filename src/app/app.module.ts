@@ -42,8 +42,6 @@ import {
   MatBottomSheet,
 } from '@angular/material';
 
-import { AgmCoreModule } from '@agm/core';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -62,6 +60,9 @@ import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
 import { FriendsComponent } from './friends/friends.component';
+import { } from '@types/googlemaps';
+import { } from '@types/google-maps';
+import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
 
 @NgModule({
   declarations: [
@@ -71,17 +72,19 @@ import { FriendsComponent } from './friends/friends.component';
     RegisterComponent,
     NavbarComponent,
     LeaderBoardComponent,
-    LeaderBoardBottomSheetComponent,
     PopularSetsComponent,
-    PopularSetBottomSheetComponent,
     MessageBarComponent,
+    PlayComponent,
+    LeaderBoardBottomSheetComponent,
+    PopularSetBottomSheetComponent,
     ProfileComponent,
     PlayGameComponent,
     GameLobbyComponent,
     GameLobbyBottomSheetComponent,
     CreateSetComponent,
     CreateLocationComponent,
-    FriendsComponent
+    FriendsComponent,
+    PlayBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -101,13 +104,11 @@ import { FriendsComponent } from './friends/friends.component';
     MatBottomSheetModule,
     MatListModule,
     MatPaginatorModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0'
-    })
+    MatProgressBarModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
-    GameLobbyComponent, GameLobbyBottomSheetComponent],
+    GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent],
 //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]
