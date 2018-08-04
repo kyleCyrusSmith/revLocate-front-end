@@ -51,10 +51,10 @@ export class FriendsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.paginator.pageSize = 5;
   }
 
   ngAfterViewInit() {
-    this.paginator.pageSize = 5;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -76,7 +76,7 @@ export class FriendsBottomSheetComponent {
   displayedColumns: string[] = ['username', 'highscore'];
   dataSource: UserScore[] = [{ username: rowClicked.username, highscore: rowClicked.highscore }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<FriendsBottomSheetComponent>) {}
+  constructor(private bottomSheetRef: MatBottomSheetRef<FriendsBottomSheetComponent>) { }
 
   challengeUser() {
     console.log(`challenge user`);
