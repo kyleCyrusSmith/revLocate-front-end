@@ -69,15 +69,15 @@ export class CreateSetComponent implements OnInit {
         console.log(`New location successfully created!`);
         switch (this.locCount) {
           case 0:
-            this.userSet.loc1Id = response.body.locationId;
+            this.userSet.loc1 = response.body.locationId;
             break;
           case 1:
-            this.userSet.loc2Id = response.body.locationId;
+            this.userSet.loc2 = response.body.locationId;
             break;
           case 2:
-            this.userSet.loc3Id = response.body.locationId;
-            this.userSet.loc4Id = 0;
-            this.userSet.loc5Id = 0;
+            this.userSet.loc3 = response.body.locationId;
+            this.userSet.loc4 = 0;
+            this.userSet.loc5 = 0;
             this.saveSet();
             break;
           default:
