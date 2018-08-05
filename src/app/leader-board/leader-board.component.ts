@@ -1,22 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, DoCheck } from '@angular/core';
+import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserService } from '../user.service';
-import { Validators, FormControl } from '@angular/forms';
 import { User } from '../models/user';
 
 export interface UserScore {
   username: String;
   highscore: Number;
 }
-
-const DUMMY_USER_SCORE_DATA: UserScore[] = [
-  { username: 'Testuser', highscore: 1079 },
-  { username: 'Someuser', highscore: 355 },
-  { username: 'Dummyuser', highscore: 479 },
-  { username: 'Newuser', highscore: 108 },
-  { username: 'Olduser', highscore: 155 },
-];
 
 let rowClicked;
 
@@ -25,13 +16,12 @@ let rowClicked;
   templateUrl: './leader-board.component.html',
   styleUrls: ['./leader-board.component.css']
 })
-export class LeaderBoardComponent implements OnInit/*, AfterViewInit*/, DoCheck  {
+export class LeaderBoardComponent implements OnInit, DoCheck {
 
   displayedColumns: string[] = ['username', 'highscore'];
-  dataSource: MatTableDataSource<UserScore>;// = new MatTableDataSource;
+  dataSource: MatTableDataSource<UserScore>;
 
   userScoreArr: UserScore[] = [];
-  tempUser: UserScore = { username: '', highscore: 0 };
 
   switched = false;
 
@@ -39,7 +29,6 @@ export class LeaderBoardComponent implements OnInit/*, AfterViewInit*/, DoCheck 
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private userService: UserService, private bottomSheet: MatBottomSheet) {
-    //   this.dataSource = new MatTableDataSource(DUMMY_USER_SCORE_DATA);
 
     this.userService.getAllUsers().subscribe(response => {
       console.log(`response status from leader board component: ` + response.status);
@@ -58,41 +47,25 @@ export class LeaderBoardComponent implements OnInit/*, AfterViewInit*/, DoCheck 
   }
 
   ngOnInit() {
- //       this.paginator.pageSize = 5;
   }
 
   getHighUserScores(allUsers: User[]) {
     let i;
     for (i = 0; i < allUsers.length; i++) {
-      this.tempUser.username = allUsers[i].username;
-      this.tempUser.highscore = allUsers[i].high_Score;
       this.userScoreArr[i] = { username: allUsers[i].username, highscore: allUsers[i].high_Score };
     }
     return this.userScoreArr;
- //   return sortByScore(this.userScoreArr).reverse().slice(0, 5);
+    //   return sortByScore(this.userScoreArr).reverse().slice(0, 5);
   }
- /* 
-    ngAfterViewInit() {
+
+  ngDoCheck() {
+    if (this.dataSource !== undefined && !this.switched) {
+      console.log(`hey`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.switched = true;
     }
-*/
-    ngDoCheck() {
-      if (this.dataSource !== undefined && !this.switched) {
-      console.log(`hey`);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.switched = true;
-      }
-    }
-/*
-
-    applyFilter(filterValue: string) {
-      filterValue = filterValue.trim(); // Remove whitespace
-      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-      this.dataSource.filter = filterValue;
-    }
-  */
+  }
 }
 
 @Component({
@@ -104,7 +77,7 @@ export class LeaderBoardBottomSheetComponent {
   displayedColumns: string[] = ['username', 'highscore'];
   dataSource: UserScore[] = [{ username: rowClicked.username, highscore: rowClicked.highscore }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<LeaderBoardBottomSheetComponent>) { }
+  constructor(private userService: UserService, private bottomSheetRef: MatBottomSheetRef<LeaderBoardBottomSheetComponent>) { }
 
   challengeUser() {
     console.log(`challenge user`);
@@ -114,10 +87,17 @@ export class LeaderBoardBottomSheetComponent {
   }
 
   addFriend() {
-    console.log(`add friend`);
-    this.bottomSheetRef.dismiss();
-    /* add function to userService to add friend
-    */
+    console.log(`add friend called`);
+
+      this.userService.addFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
+        console.log(`response status from add friend in leader board bottom sheet component: ` + response.status);
+        if (response.status >= 200 && response.status < 300) {
+          console.log(`User, ${rowClicked.username}, successfully added as friend!`);
+          this.bottomSheetRef.dismiss();
+        } else {
+          console.log(`Unable to add friend`);
+        }
+      });
   }
 
 }

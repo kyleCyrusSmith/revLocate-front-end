@@ -28,6 +28,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openBottomSheet(row)"></mat-row>
     </mat-table>
-    <mat-paginator></mat-paginator>
+    <mat-paginator [pageSize]="5"></mat-paginator>
   </mat-card>
 </mat-card>

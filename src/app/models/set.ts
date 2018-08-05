@@ -1,5 +1,6 @@
 export class Set {
     setId: number;
+    name: string;
     loc1: number;
     loc2: number;
     loc3: number;
@@ -9,5 +10,5 @@ export class Set {
     rating: number;
     totalRating: number;
     totalRated: number;
-    highscore: number;
+    highScore: number;
 }
