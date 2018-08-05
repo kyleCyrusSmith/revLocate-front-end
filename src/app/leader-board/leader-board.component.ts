@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { UserService } from '../user.service';
 
 export interface UserScore {
   username: String;
@@ -26,14 +27,23 @@ export class LeaderBoardComponent implements OnInit {
   displayedColumns: string[] = ['username', 'highscore'];
   dataSource = sortByScore(DUMMY_USER_SCORE_DATA).reverse();
 
-  constructor(private bottomSheet: MatBottomSheet) { }
+  constructor(private userService: UserService, private bottomSheet: MatBottomSheet) { }
 
   openBottomSheet(row): void {
     rowClicked = row;
     this.bottomSheet.open(LeaderBoardBottomSheetComponent);
   }
 
-  ngOnInit() {
+  ngOnInit() {/*
+    this.userService.getAllUsers().subscribe(response => {
+      console.log(`response status from leader board component: ` + response.status);
+      if (response.status >= 200 && 300) {
+        console.log(`all users retrieved by leader board`);
+        this.dataSource = response.body;
+      } else {
+        console.log(`leaderboard did not retrieve all users`);
+      }
+    });*/
   }
 
 }

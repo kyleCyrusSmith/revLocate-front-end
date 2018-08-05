@@ -3,11 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from './models/location';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Set } from './models/set';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
+
+  tempSet: Set = new Set;
 
   subscribers: BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
 
@@ -34,6 +37,16 @@ export class LocationService {
   public getRandomLocation() {
     console.log(`Attempting to get random location`);
     return this.http.get<Location>(environment.apiUrl + `locations/random`, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
+  public saveSet(newSet: Set) {
+    console.log(`Attempting to save set: (${newSet})`);
+    const json = JSON.stringify(newSet);
+    console.log(`JSON: ` + json);
+    return this.http.post<Set>(environment.apiUrl + 'sets/new', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });
