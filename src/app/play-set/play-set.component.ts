@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { } from '@types/google-maps';
@@ -7,18 +7,25 @@ import { LocationService } from '../location.service';
 import { Location } from '../models/location';
 import { UserService } from '../user.service';
 import { User } from '../models/user';
+import { Set } from '../models/set';
 
 let theDistance: number;
 let points: number;
 let score: number;
-let randLoc: Location = new Location;
+let nextLoc: Location = new Location;
 let loggedUser: User;
+let currSet: Set;
+let setArray = [];
+let locationArray = [];
+let count = 0;
+let open = true;
+let setScore = 0;
 @Component({
-  selector: 'app-play',
-  templateUrl: './play.component.html',
-  styleUrls: ['./play.component.css']
+  selector: 'app-play-set',
+  templateUrl: './play-set.component.html',
+  styleUrls: ['./play-set.component.css']
 })
-export class PlayComponent implements OnInit, OnDestroy {
+export class PlaySetComponent implements OnInit, OnDestroy {
   navigationSubscription;
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
@@ -38,33 +45,54 @@ export class PlayComponent implements OnInit, OnDestroy {
     private locService: LocationService) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
-        this.initialisePlay();
+        this.initialisePlaySet();
       }
     });
   }
-  initialisePlay () {
-    this.getLocation();
+  initialisePlaySet () {
+    currSet = {
+          setId: 5,
+          name: "It's Cold",
+          loc1Id: 88,
+          loc2Id: 89,
+          loc3Id: 90,
+          loc4Id: 0,
+          loc5Id: 0,
+          authorId: 5,
+          rating: 0,
+          totalRating: 0,
+          totalRated: 0,
+          highscore: 0
+    };
+    localStorage.setItem('set', JSON.stringify(currSet));
+    console.log('set array length is ' + setArray.length);
+    if (setArray.length === 0) {
+      this.getSet();
+      this.getLocation(setArray[count]);
+    }
   }
 
   ngOnDestroy () {
     this.created = false;
-    this.getLocation();
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
   }
 
   openBottomSheet (): void {
-    this.bottomSheet.open(PlayBottomSheetComponent);
+    this.bottomSheet.open(PlaySetBottomSheetComponent);
   }
 
   ngOnInit () {
   }
 
+
+
   public makeMaps () {
+    console.log(nextLoc.latitude + ' lng = ' + nextLoc.longitude);
     this.panorama = new google.maps.StreetViewPanorama(
       document.getElementById('panorama'), {
-        position: { lat: randLoc.latitude, lng: randLoc.longitude },
+        position: { lat: nextLoc.latitude, lng: nextLoc.longitude },
         addressControl: false,
         linksControl: true,
         panControl: false,
@@ -134,7 +162,7 @@ export class PlayComponent implements OnInit, OnDestroy {
     this.lng2 = this.panorama.getPosition().lng();
     this.panorama = new google.maps.StreetViewPanorama(
       document.getElementById('floatMap'), {
-        position: { lat: randLoc.latitude, lng: randLoc.longitude },
+        position: { lat: nextLoc.latitude, lng: nextLoc.longitude },
         addressControl: false,
         linksControl: true,
         panControl: false,
@@ -169,7 +197,6 @@ export class PlayComponent implements OnInit, OnDestroy {
       bounds.extend(markers[i].getPosition());
     }
     this.map.fitBounds(bounds);
-    this.created = false;
   }
 
   public calcScore () {
@@ -198,16 +225,51 @@ export class PlayComponent implements OnInit, OnDestroy {
       score = Math.round((points / 100) * 2000);
     }
     this.updateScore();
-    this.bottomSheet.open(PlayBottomSheetComponent);
+    setScore += score;
+    this.bottomSheet.open(PlaySetBottomSheetComponent);
+    this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe(
+      (event) => {
+        console.log(setArray.length + 'bottom sheet close works' + count);
+        if (count + 1 < setArray.length) {
+          this.created = false;
+          this.getLocation(setArray[count += 1]);
+        } else {
+          if (setScore > currSet.highscore) {
+            currSet.highscore = setScore;
+            this.locService.saveSet(currSet).subscribe(response => {
+              if (response.status === 202) {
+                localStorage.clear();
+                localStorage.setItem('set', JSON.stringify(response.body));
+                loggedUser = JSON.parse(localStorage.getItem('set'));
+              } else {
+                console.log(`Unable to update user`);
+              }});
+            alert('you broke the Highscore!');
+          }
+          alert('you reached the end of the set');
+        }
+      });
   }
 
-  public getLocation () {
-    this.locService.getRandomLocation().subscribe(response => {
-      if (response.status === 200) {
-        randLoc = response.body;
-        this.makeMaps();
+  public getLocation (value: number) {
+      this.locService.getLocation(value).subscribe(response => {
+        if (response.status === 200) {
+          nextLoc = response.body;
+          console.log('got location ' + nextLoc);
+            this.makeMaps();
+        }
+      });
+  }
+
+  public getSet() {
+    currSet = JSON.parse(localStorage.getItem('set'));
+    const locArray = [currSet.loc1Id, currSet.loc2Id, currSet.loc3Id, currSet.loc4Id, currSet.loc5Id];
+    locArray.forEach((value, index) => {
+      if (value !== 0) {
+        setArray.push(value);
       }
     });
+    console.log('current set ' + setArray);
   }
 
   public updateScore() {
@@ -229,19 +291,18 @@ export class PlayComponent implements OnInit, OnDestroy {
 }
 
 @Component({
-  selector: 'app-play-bottom-sheet',
-  templateUrl: './play-bottom-sheet.component.html',
+  selector: 'app-play-set-bottom-sheet',
+  templateUrl: './play-set-bottom-sheet.component.html',
 })
-export class PlayBottomSheetComponent {
+export class PlaySetBottomSheetComponent {
   theDistance = Math.round(theDistance);
   points = points;
   score = score;
-  constructor(private bottomSheetRef: MatBottomSheetRef<PlayBottomSheetComponent>, private router: Router) { }
+  constructor(private bottomSheetRef: MatBottomSheetRef<PlaySetBottomSheetComponent>, private router: Router) {}
 
-  newGame () {
-    console.log(theDistance);
-    console.log(`challenge user`);
+  nextLocation () {
+    console.log('---------------------nav to net location------------');
+    open = false;
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['play']);
   }
 }

@@ -6,4 +6,6 @@ export class Location {
     localLanguage: string;
     difficulty: number;
     author: string;
+    altitude: number;
+    timeZone: string;
 }

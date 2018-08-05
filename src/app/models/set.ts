@@ -1,5 +1,6 @@
 export class Set {
     setId: number;
+    name: string;
     loc1Id: number;
     loc2Id: number;
     loc3Id: number;
