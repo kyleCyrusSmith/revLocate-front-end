@@ -51,4 +51,12 @@ export class LocationService {
       observe: 'response'
     });
   }
+
+  public getAllSets() {
+    console.log(`Getting all sets`);
+    return this.http.get<Set[]>(environment.apiUrl + 'sets', {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
 }

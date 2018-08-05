@@ -2,16 +2,16 @@
   <h2 class="text-center">Friends List</h2>
   <hr>
   <mat-toolbar color="secondary">
-  <span>
+    <span>
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
-      </span>
-      <span style="flex: 1 1 auto;"></span>
-      <span>
-        <button mat-raised-button color="primary" (click)="openBottomSheet()">Add Friend</button>
     </span>
-</mat-toolbar>
+    <span style="flex: 1 1 auto;"></span>
+    <span>
+      <button mat-raised-button color="primary" (click)="openBottomSheet()">Add Friend</button>
+    </span>
+  </mat-toolbar>
   <mat-card class="mat-elevation-z8">
     <mat-table [dataSource]="dataSource" matSort style="overflow: auto; height: 310px;">
 
@@ -28,6 +28,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openBottomSheet(row)"></mat-row>
     </mat-table>
-    <mat-paginator></mat-paginator>
+    <mat-paginator [pageSize]="5"></mat-paginator>
   </mat-card>
 </mat-card>
