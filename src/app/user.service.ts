@@ -46,8 +46,16 @@ export class UserService {
     });
   }
 
+  public getAllUsers() {
+    console.log(`Getting all users`);
+    return this.http.get<User[]>(environment.apiUrl + 'users', {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
   public addFriend(currentUser: User, targetUser: User) {
-    console.log(`${currentUser.username} is attempting to add friend with id: ${targetUser.userId}`);
+    console.log(`${currentUser.username} is attempting to add friend: ${targetUser.username}`);
     const json = JSON.stringify({currentUser, targetUser});
     return this.http.post(environment.apiUrl + 'users/friends/add', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

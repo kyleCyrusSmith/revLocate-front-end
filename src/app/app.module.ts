@@ -55,10 +55,8 @@ import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
-import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
-import { CreateSetComponent } from './create-set/create-set.component';
-import { CreateLocationComponent } from './create-location/create-location.component';
+import { CreateSetComponent, CreateSetBottomSheetComponent } from './create-set/create-set.component';
 import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends.component';
 import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
@@ -78,14 +76,13 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     LeaderBoardBottomSheetComponent,
     PopularSetBottomSheetComponent,
     ProfileComponent,
-    PlayGameComponent,
     GameLobbyComponent,
     GameLobbyBottomSheetComponent,
     CreateSetComponent,
-    CreateLocationComponent,
     FriendsComponent,
     FriendsBottomSheetComponent,
-    PlayBottomSheetComponent
+    PlayBottomSheetComponent,
+    CreateSetBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +108,7 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
     GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent,
-    FriendsComponent, FriendsBottomSheetComponent],
+    FriendsComponent, FriendsBottomSheetComponent, CreateSetBottomSheetComponent],
 //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]

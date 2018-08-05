@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { UserService } from '../user.service';
+import { Validators, FormControl } from '@angular/forms';
+import { User } from '../models/user';
 
 export interface UserScore {
   username: String;
@@ -40,7 +43,7 @@ export class FriendsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private bottomSheet: MatBottomSheet) {
+  constructor(private userService: UserService, private bottomSheet: MatBottomSheet) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(DUMMY_USER_SCORE_DATA);
   }
@@ -73,23 +76,30 @@ export class FriendsComponent implements OnInit, AfterViewInit {
 })
 export class FriendsBottomSheetComponent {
 
-  displayedColumns: string[] = ['username', 'highscore'];
-  dataSource: UserScore[] = [{ username: rowClicked.username, highscore: rowClicked.highscore }];
+  friend: User = new User;
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<FriendsBottomSheetComponent>) { }
+  constructor(private userService: UserService, private bottomSheetRef: MatBottomSheetRef<FriendsBottomSheetComponent>) { }
 
-  challengeUser() {
-    console.log(`challenge user`);
-    this.bottomSheetRef.dismiss();
-    /* add a link to start a solo game that compares final scores
-    */
-  }
+  usernameFormControl = new FormControl('', [
+    Validators.required,
+  ]);
 
-  removeFriend() {
-    console.log(`remove friend`);
-    this.bottomSheetRef.dismiss();
-    /* add function to userService to add friend
-    */
+  addFriend() {
+    console.log(`add friend called`);
+
+    if (this.usernameFormControl.hasError('required')) {
+      console.log(`add friend sheet is missing fields`);
+    } else {
+      this.userService.addFriend(JSON.parse(localStorage.getItem('user')), this.friend).subscribe(response => {
+        console.log(`response status from add friend bottom sheet component: ` + response.status);
+        if (response.status >= 200 && response.status < 300) {
+          console.log(`User, ${this.friend.username}, successfully added as friend!`);
+          this.bottomSheetRef.dismiss();
+        } else {
+          console.log(`Unable to add friend`);
+        }
+      });
+    }
   }
 
 }

@@ -1,20 +1,18 @@
 <mat-toolbar class="rounded mat-elevation-z3" color="secondary">
-  <a class="navbar-brand"> <img src="../../assets/revLocateLogo.svg" alt="revLocate Logo" style="height: 64px;"></a>
-  <div class="col">
-    <div class="d-flex">
+  <span><a class="navbar-brand"> <img src="../../assets/revLocateLogo.svg" alt="revLocate Logo" style="height: 64px;"></a></span>
+  <span *ngIf="loggedIn">
       <a mat-button color="secondary" routerLink="/home"> Home </a>
       <a mat-button color="secondary" routerLink="/play"> Play! (game) </a>
       <a mat-button color="secondary" routerLink="/lobby"> Play! (lobby) </a>
       <a mat-button color="secondary" routerLink="/create"> Create Set </a>
       <a mat-button color="secondary" routerLink="/friends"> Friends </a>
-    </div>
-  </div>
-  <div class="col">
-    <div class="justify-content-end d-flex">
-      <a mat-button color="secondary" routerLink="/login"> Login </a>
-      <a mat-button color="secondary" routerLink="/register"> Register </a>
-      <a mat-button color="secondary" routerLink="/profile"> Profile </a>
-      <a mat-button color="secondary" (click)="ngOnInit()"> Logout </a>
-    </div>
-  </div>
+    </span>
+    <span style="flex: 1 1 auto;"></span>
+    <span *ngIf="loggedIn"> Total Score: {{totalScore}} </span>
+  <span>
+      <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/login"> Login </a>
+      <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/register"> Register </a>
+      <a *ngIf="loggedIn" mat-button color="secondary" routerLink="/profile"> Profile </a>
+      <a *ngIf="loggedIn" mat-button color="secondary" (click)="ngOnInit()"> Logout </a>
+    </span>
 </mat-toolbar>
