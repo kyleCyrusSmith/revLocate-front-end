@@ -55,7 +55,6 @@ import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
-import { PlayGameComponent } from './play-game/play-game.component';
 import { GameLobbyComponent, GameLobbyBottomSheetComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { CreateLocationComponent } from './create-location/create-location.component';
@@ -78,7 +77,6 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     LeaderBoardBottomSheetComponent,
     PopularSetBottomSheetComponent,
     ProfileComponent,
-    PlayGameComponent,
     GameLobbyComponent,
     GameLobbyBottomSheetComponent,
     CreateSetComponent,
@@ -106,7 +104,7 @@ import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
     MatListModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,

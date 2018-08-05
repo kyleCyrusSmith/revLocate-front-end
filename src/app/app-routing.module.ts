@@ -14,46 +14,54 @@ const ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    runGuardsAndResolvers: 'always',
   },
     {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'play',
-    component: PlayComponent
+    component: PlayComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'lobby',
-    component: GameLobbyComponent
+    component: GameLobbyComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'create',
-    component: CreateSetComponent
+    component: CreateSetComponent,
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'friends',
-    component: FriendsComponent
+    component: FriendsComponent,
+    runGuardsAndResolvers: 'always',
   }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES, {onSameUrlNavigation: 'reload'})
   ],
   declarations: [],
   exports: [
