@@ -2,7 +2,7 @@
     <mat-toolbar>
         <span>
             <mat-form-field class="form-group col centered">
-                <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username">
+                <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username" (keyup.enter)="addFriend()">
                 <mat-error *ngIf="usernameFormControl.hasError('required')">
                     Username is
                     <strong>required</strong>

@@ -1,0 +1,47 @@
+
+<h1 style="text-align: center" class="my-5">Playable Sets</h1>
+<div class="my-5">
+  <mat-toolbar class="" style="height: 320px; overflow-x: hidden;">
+    <mat-card class="my-4 col-3" *ngFor="let data of dataSource.data">
+      <mat-card-header>
+        <div mat-card-avatar class="row"></div>
+        <span class="col" mat-line style="text-align: center">Shiba Inu Q</span>
+        <span class="col" mat-line style="text-align: center">Dog Breed</span>
+      </mat-card-header>
+      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" (click)="openBottomSheet(5)">
+    </mat-card>
+  </mat-toolbar>
+
+</div>
+
+<mat-paginator class="my-5" [pageSize]="3" (page)="pageEvent = $event">
+</mat-paginator>
+
+<!--
+<mat-card class="container centered col-10 shadow p-4 my-4 shadow rounded" color="secondary">
+    <h2 class="text-center">Popular Sets</h2>
+    <hr>
+    <mat-card class="mat-elevation-z8">
+      <mat-table [dataSource]="dataSource" matSort style="overflow: auto; height: 310px;">
+  
+        <ng-container matColumnDef="setName">
+          <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Set Name </mat-header-cell>
+          <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.setName}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="rating">
+          <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Rating </mat-header-cell>
+          <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.rating}} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="highscore">
+          <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Highscore </mat-header-cell>
+          <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.highscore}} </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openBottomSheet(row)"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSize]="5"></mat-paginator>
+    </mat-card>
+  </mat-card> -->

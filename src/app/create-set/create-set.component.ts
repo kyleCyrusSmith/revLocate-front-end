@@ -117,19 +117,19 @@ export class CreateSetBottomSheetComponent {
     } else {
       console.log(`submit set: ${this.userSet}`);
 
-    this.locService.saveSet(this.userSet).subscribe(response => {
-      console.log(`response status from create set component: ` + response.status);
-      if (response.status >= 200 && response.status < 300) {
-        console.log(`New set successfully created!`);
-      this.bottomSheetRef.dismiss();
-      this.router.navigate(['home']);
-      } else {
-        console.log(`Location creation failed. Status code: ${response.status}`);
-        this.router.navigate(['home']);
-      }
-    });
-  }
+      this.locService.saveSet(this.userSet).subscribe(response => {
+        console.log(`response status from create set component: ` + response.status);
+        if (response.status >= 200 && response.status < 300) {
+          console.log(`New set successfully created!`);
+          this.bottomSheetRef.dismiss();
+          this.router.navigate(['home']);
+        } else {
+          console.log(`Location creation failed. Status code: ${response.status}`);
+          this.router.navigate(['home']);
+        }
+      });
     }
+  }
 
 }
 

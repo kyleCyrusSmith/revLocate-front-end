@@ -56,7 +56,7 @@ export class UserService {
 
   public addFriend(user: User, targetName: String) {
     console.log(`${user.username} is attempting to add friend: ${targetName}`);
-    const json = JSON.stringify({targetName, user});
+    const json = JSON.stringify({ targetName, user });
     return this.http.post(environment.apiUrl + 'users/friends/add', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -65,7 +65,7 @@ export class UserService {
 
   public removeFriend(user: User, targetName: String) {
     console.log(`${user.username} is attempting to remove friend: ${targetName}`);
-    const json = JSON.stringify({targetName, user});
+    const json = JSON.stringify({ targetName, user });
     return this.http.post(environment.apiUrl + 'users/friends/remove', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'

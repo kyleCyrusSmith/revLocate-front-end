@@ -54,8 +54,7 @@ export class LeaderBoardComponent implements OnInit, DoCheck {
     for (i = 0; i < allUsers.length; i++) {
       this.userScoreArr[i] = { username: allUsers[i].username, highscore: allUsers[i].high_Score };
     }
-    return this.userScoreArr;
-    //   return sortByScore(this.userScoreArr).reverse().slice(0, 5);
+    return sortByScore(this.userScoreArr).reverse();
   }
 
   ngDoCheck() {
@@ -89,15 +88,15 @@ export class LeaderBoardBottomSheetComponent {
   addFriend() {
     console.log(`add friend called`);
 
-      this.userService.addFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
-        console.log(`response status from add friend in leader board bottom sheet component: ` + response.status);
-        if (response.status >= 200 && response.status < 300) {
-          console.log(`User, ${rowClicked.username}, successfully added as friend!`);
-          this.bottomSheetRef.dismiss();
-        } else {
-          console.log(`Unable to add friend`);
-        }
-      });
+    this.userService.addFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
+      console.log(`response status from add friend in leader board bottom sheet component: ` + response.status);
+      if (response.status >= 200 && response.status < 300) {
+        console.log(`User, ${rowClicked.username}, successfully added as friend!`);
+        this.bottomSheetRef.dismiss();
+      } else {
+        console.log(`Unable to add friend`);
+      }
+    });
   }
 
 }
