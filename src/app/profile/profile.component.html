@@ -2,7 +2,7 @@
   <h2 class="text-center">Profile</h2>
   <hr>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="{{loggedUser.email}}" [formControl]="emailFormControl" [(ngModel)]="user.email">
+    <input matInput placeholder="{{loggedUser.email}}" [formControl]="emailFormControl" [(ngModel)]="user.email" (keyup.enter)="updateProfile()">
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
       Please enter a valid email address
     </mat-error>
@@ -12,14 +12,15 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="{{loggedUser.username}}" [formControl]="usernameFormControl" [(ngModel)]="user.username">
+    <input matInput placeholder="{{loggedUser.username}}" [formControl]="usernameFormControl" [(ngModel)]="user.username" (keyup.enter)="updateProfile()">
     <mat-error *ngIf="usernameFormControl.hasError('required')">
       Username is
       <strong>required</strong>
     </mat-error>
   </mat-form-field>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" [(ngModel)]="user.password">
+    <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" [(ngModel)]="user.password"
+      (keyup.enter)="updateProfile()">
     <mat-error *ngIf="passwordFormControl.hasError('required')">
       Password is
       <strong>required</strong>
@@ -28,7 +29,7 @@
   </mat-form-field>
   <mat-form-field class="form-group col centered">
     <input matInput placeholder="Confirm Password" [type]="hideConfirmPassword ? 'password' : 'text'" [formControl]="confirmPasswordFormControl"
-      [(ngModel)]="confirmedPassword">
+      (keyup.enter)="updateProfile()" [(ngModel)]="confirmedPassword">
     <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
       Confirmed password is
       <strong>required</strong>
@@ -40,11 +41,15 @@
     <mat-icon matSuffix color="primary" (click)="hideConfirmPassword = !hideConfirmPassword">{{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <br>
-  <div class="justify-content-end d-flex">
-    <button mat-raised-button color="primary" (click)="updateProfile()">Update</button>
-  </div>
-</div>
-
-<div *ngIf="!isValid" class="alert alert-danger" id="formError">
-  Invalid or Missing Credentials!
+  <mat-toolbar class="justify-content-end d-flex">
+    <span>
+      <mat-toolbar *ngIf="!isValid" color="warn" id="formError">
+        <font size="2"> Invalid or Missing Credentials! </font>
+      </mat-toolbar>
+    </span>
+    <span style="flex: 1 1 auto;"></span>
+    <span>
+      <button mat-raised-button color="primary" (click)="updateProfile()">Update</button>
+    </span>
+  </mat-toolbar>
 </div>

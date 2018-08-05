@@ -9,6 +9,7 @@ import { GameLobbyComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { PlayComponent } from './play/play.component';
 import { FriendsComponent } from './friends/friends.component';
+import { TestLobbyComponent } from './test-lobby/test-lobby.component';
 
 const ROUTES: Routes = [
   {
@@ -26,7 +27,7 @@ const ROUTES: Routes = [
     component: RegisterComponent,
     runGuardsAndResolvers: 'always',
   },
-    {
+  {
     path: 'profile',
     component: ProfileComponent,
     runGuardsAndResolvers: 'always',
@@ -43,7 +44,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'lobby',
-    component: GameLobbyComponent,
+    component: TestLobbyComponent, // GameLobbyComponent,
     runGuardsAndResolvers: 'always',
   },
   {
@@ -61,7 +62,7 @@ const ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(ROUTES, {onSameUrlNavigation: 'reload'})
+    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: 'reload' })
   ],
   declarations: [],
   exports: [
