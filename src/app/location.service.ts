@@ -39,7 +39,7 @@ export class LocationService {
   }
 
   public getSet(setId: Number) {
-    return this.http.get<Set>(environment.apiUrl + `sets/${setId}`,{
+    return this.http.get<Set>(environment.apiUrl + `sets/${setId}`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
       observe: 'response'
     });
