@@ -55,6 +55,14 @@ export class CreateSetComponent implements OnInit {
     });
   }
 
+  // public getApis(newLoc:Location) {
+  //  /* 2 strings for apis 
+  //   set both alt and timezone for newLoc*/
+  //   //${newLoc.altitude}
+  //   let timestamp= new Date().getTime//&key={apiKey}
+  //   let 
+  // }
+
   public saveLocation() {
     console.log(`in save location: ${this.lat}, ${this.lng}`);
     const newLoc: Location = new Location;
@@ -62,7 +70,7 @@ export class CreateSetComponent implements OnInit {
     newLoc.longitude = this.lng;
     newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
     console.log(newLoc);
-
+    //this.getApis();
     this.locService.saveLocation(newLoc).subscribe(response => {
       console.log(`response status from create location component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
