@@ -67,12 +67,9 @@ export class FriendsComponent implements OnInit, DoCheck, OnDestroy {
 
   getFriendsList() {
     this.userService.getAllFriends(JSON.parse(localStorage.getItem('user'))).subscribe(response => {
-      console.log(`response status from friends component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`all friends retrieved for user ${JSON.parse(localStorage.getItem('user')).username}`);
         this.dataSource = new MatTableDataSource(this.getUserScores(response.body));
       } else {
-        console.log(`friends component did not retrieve all users`);
       }
     });
   }
@@ -89,7 +86,6 @@ export class FriendsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     if (this.dataSource !== undefined && !this.switched) {
-      console.log(`hey from friends component`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.switched = true;
@@ -132,18 +128,12 @@ export class FriendsBottomSheetComponent {
   ]);
 
   addFriend() {
-    console.log(`add friend called`);
-
     if (this.usernameFormControl.hasError('required')) {
-      console.log(`add friend sheet is missing fields`);
     } else {
       this.userService.addFriend(JSON.parse(localStorage.getItem('user')), this.friend.username).subscribe(response => {
-        console.log(`response status from add friend bottom sheet component: ` + response.status);
         if (response.status >= 200 && response.status < 300) {
-          console.log(`User, ${this.friend.username}, successfully added as friend!`);
           this.bottomSheetRef.dismiss();
         } else {
-          console.log(`Unable to add friend`);
         }
       });
     }
@@ -151,14 +141,9 @@ export class FriendsBottomSheetComponent {
   }
 
   removeFriend() {
-    console.log(`remove friend called`);
-
     this.userService.removeFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
-      console.log(`response status from add friend bottom sheet component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`User, ${rowClicked.username}, successfully removed as friend!`);
       } else {
-        console.log(`Unable to remove friend`);
       }
     });
     this.refreshPage();

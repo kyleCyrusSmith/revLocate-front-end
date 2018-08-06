@@ -17,9 +17,7 @@ export class LocationService {
   constructor(private http: HttpClient) { }
 
   public saveLocation(loc: Location) {
-    console.log(`Attempting to save location: (${loc.latitude}, ${loc.longitude})`);
     const json = JSON.stringify(loc);
-    console.log(`JSON: ` + json);
     return this.http.post<Location>(environment.apiUrl + 'locations', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -27,7 +25,6 @@ export class LocationService {
   }
 
   public getLocation(locId: Number) {
-    console.log(`Attempting to get location: (${locId})`);
     return this.http.get<Location>(environment.apiUrl + `locations/${locId}`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -35,7 +32,6 @@ export class LocationService {
   }
 
   public getRandomLocation() {
-    console.log(`Attempting to get random location`);
     return this.http.get<Location>(environment.apiUrl + `locations/random`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -48,11 +44,9 @@ export class LocationService {
       observe: 'response'
     });
   }
-
+  
   public saveSet(newSet: Set) {
-    console.log(`Attempting to save set: (${newSet})`);
     const json = JSON.stringify(newSet);
-    console.log(`JSON: ` + json);
     return this.http.put<Set>(environment.apiUrl + 'sets', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -60,7 +54,6 @@ export class LocationService {
   }
 
   public getAllSets() {
-    console.log(`Getting all sets`);
     return this.http.get<Set[]>(environment.apiUrl + 'sets', {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'

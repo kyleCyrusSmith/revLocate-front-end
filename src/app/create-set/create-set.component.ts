@@ -8,6 +8,7 @@ import { LocationService } from '../location.service';
 import { Location } from '../models/location';
 import { Set } from '../models/set';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 declare const google: any;
 
@@ -25,7 +26,7 @@ export class CreateSetComponent implements OnInit {
   userSet: Set = new Set;
   locCount = 0;
 
-  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet) { }
+  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet,private http: HttpClient) { }
 
   ngOnInit() {
     this.initialize();
@@ -49,32 +50,52 @@ export class CreateSetComponent implements OnInit {
     map.setStreetView(panorama);
 
     panorama.addListener('position_changed', () => {
-      console.log(`new position: (${panorama.getPosition().lat()}, ${panorama.getPosition().lng()})`);
       this.lat = panorama.getPosition().lat();
       this.lng = panorama.getPosition().lng();
     });
   }
+  apiKey='AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0';
+  timestamp= 1331161200;
+  public getApis() {
+   /* 2 strings for apis 
+    set both alt and timezone for newLoc*/
+    this.getTimezone().subscribe(response =>{
+      if (response.status >= 200 && response.status < 300) {
+     let timezone = response.body.timeZoneName;
+        this.getElevation().subscribe(response =>{
+          if (response.status >= 200 && response.status < 300) {
+            let altitude = response.body.elevation;
+            this.saveLocation(timezone, altitude);
+          }
+        });
+      }
+    });
+  }
 
-  // public getApis(newLoc:Location) {
-  //  /* 2 strings for apis 
-  //   set both alt and timezone for newLoc*/
-  //   //${newLoc.altitude}
-  //   let timestamp= new Date().getTime//&key={apiKey}
-  //   let 
-  // }
+  public getTimezone(){
+    return this.http.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${this.lat},${this.lng}&timestamp=${this.timestamp}&key=${this.apiKey}`, {
+      observe: 'response'
+    });
+  }
 
-  public saveLocation() {
+  public getElevation(){
+    return this.http.get<Object>(`https://maps.googleapis.com/maps/api/elevation/json?locations=${this.lat},${this.lng}&key=${this.apiKey}`, {
+      observe: 'response'
+    });
+  }
+
+  public saveLocation(timezone:string, altitude:number) {
     console.log(`in save location: ${this.lat}, ${this.lng}`);
     const newLoc: Location = new Location;
     newLoc.latitude = this.lat;
     newLoc.longitude = this.lng;
+    newLoc.altitude = altitude;
+    newLoc.timeZone = timezone;
     newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
-    console.log(newLoc);
     //this.getApis();
+    console.log(newLoc);
     this.locService.saveLocation(newLoc).subscribe(response => {
-      console.log(`response status from create location component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`New location successfully created!`);
         switch (this.locCount) {
           case 0:
             this.userSet.loc1 = response.body.locationId;
@@ -93,13 +114,11 @@ export class CreateSetComponent implements OnInit {
         }
         this.locCount++;
       } else {
-        console.log(`Location creation failed. Status code: ${response.status}`);
       }
     });
   }
 
   public saveSet() {
-    console.log(`In save set with newSet: ${this.userSet}`);
     this.locService.tempSet = this.userSet;
     this.bottomSheet.open(CreateSetBottomSheetComponent);
   }
@@ -121,18 +140,13 @@ export class CreateSetBottomSheetComponent {
 
   submitSet() {
     if (this.setNameFormControl.hasError('required')) {
-      console.log(`submit sheet is missing fields`);
     } else {
-      console.log(`submit set: ${this.userSet}`);
 
       this.locService.saveSet(this.userSet).subscribe(response => {
-        console.log(`response status from create set component: ` + response.status);
         if (response.status >= 200 && response.status < 300) {
-          console.log(`New set successfully created!`);
           this.bottomSheetRef.dismiss();
           this.router.navigate(['home']);
         } else {
-          console.log(`Location creation failed. Status code: ${response.status}`);
           this.router.navigate(['home']);
         }
       });

@@ -38,12 +38,9 @@ export class GameLobbyComponent implements OnInit, DoCheck {
   constructor(private locService: LocationService, private bottomSheet: MatBottomSheet) {
 
     this.locService.getAllSets().subscribe(response => {
-      console.log(`response status from popular sets component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`all sets retrieved by popular set component`);
         this.dataSource = new MatTableDataSource(this.getGameLobby(response.body));
       } else {
-        console.log(`popular set board did not retrieve all sets`);
       }
     });
   }
@@ -63,7 +60,6 @@ export class GameLobbyComponent implements OnInit, DoCheck {
         location: '', locationId: allSets[i].loc1, setName: allSets[i].name, setId: allSets[i].setId,
         rating: allSets[i].rating, highscore: allSets[i].highScore
       };
-      console.log(this.popSetArr[i].location);
     }
     this.popSetArr = this.getLocationString();
     return sortByRating(this.popSetArr).reverse();
@@ -74,37 +70,26 @@ export class GameLobbyComponent implements OnInit, DoCheck {
     for (i = 0; i < this.popSetArr.length; i++) {
 
       this.locService.getLocation(this.popSetArr[i].locationId).subscribe((response) => {
-        console.log(`response status from test lobby component: ` + response.status);
         if (response.status >= 200 && response.status < 300) {
-          console.log(`location retrieved by test lobby component`);
           this.locString = String(response.body.latitude) + ',' + String(response.body.longitude);
-          console.log(this.locString);
-          console.log(`i: ${i}, j: ${j}, arrLength: ${this.popSetArr.length}`);
           this.popSetArr[j].location = this.locString;
           j++;
           if (j === (this.popSetArr.length)) {
             this.locationsRetrieved = true;
-            console.log('LOCATIONSRETRIEVED set to true');
           }
         } else {
-          console.log(`popular set board did not retrieve all sets`);
           this.locString = '42.35930583333334000,-71.16617388888892000';
         }
       });
     }
-    console.log(`just before return ` + this.locString);
     return this.popSetArr;
   }
 
   ngDoCheck() {
     if (this.dataSource !== undefined && !this.switched && this.locationsRetrieved) {
-      console.log(`hey in pop set`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.switched = true;
-      console.log(`in DoCheck. LacationsRetrived: ${this.locationsRetrieved}`);
-      console.log(`LocString in doCheck ` + this.locString);
-      console.log(`popsetarr location: ${this.popSetArr[2].location}`);
     }
   }
 
@@ -132,10 +117,14 @@ export class GameLobbyBottomSheetComponent {
     private router: Router) { }
 
   playSet() {
-    console.log(`play set`);
     this.bottomSheetRef.dismiss();
-    //localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
-    this.router.navigate(['play-set']);
+    this.locService.getSet(this.dataSource[0].setId).subscribe(response => {
+      if (response.status >= 200 && response.status < 300) {
+        localStorage.setItem('set', JSON.stringify(response.body));
+        this.router.navigate(['play-set']);
+      } else {
+      }
+    });
   }
 
 }
