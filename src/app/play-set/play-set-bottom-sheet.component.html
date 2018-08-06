@@ -8,6 +8,13 @@
       <span mat-line style="text-align: center">Next Location</span>
     </a>
 
+    <mat-card *ngIf="hint" class="center-text">
+      <span>Your hint is: {{message}}</span>
+    </mat-card>
+    <a mat-list-item *ngIf="hint" (click)="gameHint()">
+      <span mat-line style="text-align: center">Dismiss</span>
+    </a>
+
     <mat-card *ngIf="endScreen" class="center-text">
       <span class="center-text">Congradulations you finished the set!</span>
       <hr>

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://revlocate-env.msndw326ps.us-east-2.elasticbeanstalk.com/'
+  apiUrl: 'http://revlocate-env.msndw326ps.us-east-2.elasticbeanstalk.com/',
+  apiKey: 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0'
 };
 
 /*

@@ -23,6 +23,9 @@ let setScore = 0;
 let setRating = 0;
 let next = true;
 let endScreen = false;
+let hint = false;
+let choice = 1;
+let message = '';
 @Component({
   selector: 'app-play-set',
   templateUrl: './play-set.component.html',
@@ -54,6 +57,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
   }
   initialisePlaySet () {
     next = true;
+    hint = false;
     if (setArray.length === 0) {
       this.getSet();
       this.getLocation(setArray[count]);
@@ -223,43 +227,49 @@ export class PlaySetComponent implements OnInit, OnDestroy {
             currSet.highScore = setScore;
             this.locService.saveSet(currSet).subscribe(response => {
               if (response.status >= 200 && response.status < 300) {
-                localStorage.clear();
+                localStorage.removeItem('set');
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
-              }});
+              }
+            });
           }
           this.bottomSheet.open(PlaySetBottomSheetComponent);
-          this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe( (event) => {
+          this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe((event) => {
             setArray = [];
+            next = true;
+            endScreen = false;
+            choice = 1;
+            count = 0;
             currSet.totalRated += 1;
             currSet.totalRating += setScore;
             currSet.rating = currSet.totalRating / currSet.totalRated;
             this.locService.saveSet(currSet).subscribe(response => {
               console.log(response.status);
               if (response.status >= 200 && response.status < 300) {
-                localStorage.clear();
+                localStorage.removeItem('set');
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
                 console.log(`Unable to update user`);
-              }});
-              this.router.navigate(['lobby']);
+              }
             });
+            this.router.navigate(['lobby']);
+          });
         }
       });
   }
 
   public getLocation (val: number) {
-      this.locService.getLocation(val).subscribe(response => {
-        if (response.status >= 200 && response.status < 300) {
-          nextLoc = response.body;
-            this.makeMaps();
-        }
-      });
+    this.locService.getLocation(val).subscribe(response => {
+      if (response.status >= 200 && response.status < 300) {
+        nextLoc = response.body;
+        this.makeMaps();
+      }
+    });
   }
 
-  public getSet() {
+  public getSet () {
     currSet = JSON.parse(localStorage.getItem('set'));
     let locArray = [currSet.loc1, currSet.loc2, currSet.loc3, currSet.loc4, currSet.loc5];
     locArray.forEach((val, index) => {
@@ -269,7 +279,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     });
   }
 
-  public updateScore() {
+  public updateScore () {
     loggedUser = JSON.parse(localStorage.getItem('user'));
     loggedUser.highScore = loggedUser.highScore + score;
     if (score > 1000) {
@@ -277,12 +287,41 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     }
     this.userService.updateUser(loggedUser).subscribe(response => {
       if (response.status >= 200 && response.status < 300) {
-        localStorage.clear();
+        localStorage.removeItem('user');
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
       } else {
       }
     });
+  }
+  public getHint () {
+    loggedUser = JSON.parse(localStorage.getItem('user'));
+    console.log(loggedUser);
+    if (loggedUser.coins > 0) {
+      hint = true;
+      next = false;
+      loggedUser.coins -= 1;
+      if (choice === 1) {
+        this.panorama = new google.maps.StreetViewPanorama(
+          document.getElementById('panorama'), {
+            position: { lat: nextLoc.latitude, lng: nextLoc.longitude },
+            addressControl: false,
+            linksControl: true,
+            panControl: true,
+            enableCloseButton: false
+          });
+        message = 'The compas has been enabled for you!';
+        choice += 1;
+      } else if (choice === 2) {
+        message = 'The Time Zone is: ' + nextLoc.timeZone;
+      }
+      this.bottomSheet.open(PlaySetBottomSheetComponent);
+      this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe((event) => {
+        hint = false;
+        next = true;
+      });
+    } else {
+    }
   }
 }
 
@@ -298,22 +337,28 @@ export class PlaySetBottomSheetComponent {
   endScreen = endScreen;
   currSet = currSet;
   setScore = setScore;
+  hint = hint;
+  message = message;
 
-
-  constructor(private bottomSheetRef: MatBottomSheetRef<PlaySetBottomSheetComponent>, private router: Router) {}
+  constructor(private bottomSheetRef: MatBottomSheetRef<PlaySetBottomSheetComponent>, private router: Router) { }
 
   nextLocation () {
     open = false;
     this.bottomSheetRef.dismiss();
   }
 
-  endSet() {
+  endSet () {
     console.log(setScore);
     console.log(event.returnValue);
     this.bottomSheetRef.dismiss();
   }
-  onChange(event: any) {
+
+  onChange (event: any) {
     console.log('changed ' + event.value);
     setScore = event.value;
+  }
+
+  gameHint () {
+    this.bottomSheetRef.dismiss();
   }
 }
