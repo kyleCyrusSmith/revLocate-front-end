@@ -44,7 +44,7 @@ export class LocationService {
       observe: 'response'
     });
   }
-  
+
   public saveSet(newSet: Set) {
     const json = JSON.stringify(newSet);
     return this.http.put<Set>(environment.apiUrl + 'sets', json, {
