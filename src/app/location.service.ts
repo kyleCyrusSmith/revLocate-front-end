@@ -48,7 +48,7 @@ export class LocationService {
       observe: 'response'
     });
   }
-
+  
   public saveSet(newSet: Set) {
     console.log(`Attempting to save set: (${newSet})`);
     const json = JSON.stringify(newSet);
