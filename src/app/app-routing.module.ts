@@ -9,7 +9,7 @@ import { GameLobbyComponent } from './game-lobby/game-lobby.component';
 import { CreateSetComponent } from './create-set/create-set.component';
 import { PlayComponent } from './play/play.component';
 import { FriendsComponent } from './friends/friends.component';
-import { TestLobbyComponent } from './test-lobby/test-lobby.component';
+import { PlaySetComponent } from './play-set/play-set.component';
 
 const ROUTES: Routes = [
   {
@@ -55,6 +55,11 @@ const ROUTES: Routes = [
   {
     path: 'friends',
     component: FriendsComponent,
+    runGuardsAndResolvers: 'always',
+  },
+  {
+    path: 'play-set',
+    component: PlaySetComponent,
     runGuardsAndResolvers: 'always',
   }
 ];
