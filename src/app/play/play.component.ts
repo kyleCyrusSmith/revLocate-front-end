@@ -47,6 +47,7 @@ export class PlayComponent implements OnInit, OnDestroy {
     });
   }
   initialisePlay () {
+    loggedUser = JSON.parse(localStorage.getItem('user'));
     this.getLocation();
   }
 
@@ -214,7 +215,6 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   public updateScore() {
-    loggedUser = JSON.parse(localStorage.getItem('user'));
     loggedUser.highScore = loggedUser.highScore + score;
     if (score > 1000) {
       loggedUser.coins = loggedUser.coins += 1;
@@ -230,12 +230,19 @@ export class PlayComponent implements OnInit, OnDestroy {
   }
 
   public getHint() {
-    loggedUser = JSON.parse(localStorage.getItem('user'));
     console.log(loggedUser);
     if (loggedUser.coins > 0) {
       hint = true;
       show = false;
       loggedUser.coins -= 1;
+      this.userService.updateUser(loggedUser).subscribe(response => {
+      if (response.status >= 200 && response.status < 300) {
+        localStorage.clear();
+        localStorage.setItem('user', JSON.stringify(response.body));
+        loggedUser = JSON.parse(localStorage.getItem('user'));
+      } else {
+      }
+    });
       choice = Math.floor(Math.random() * 2) + 1;
       if ( choice === 1) {
         this.panorama = new google.maps.StreetViewPanorama(
