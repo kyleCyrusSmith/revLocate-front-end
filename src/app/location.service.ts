@@ -26,7 +26,7 @@ export class LocationService {
     });
   }
 
-  public getLocation(locId: number) {
+  public getLocation(locId: Number) {
     console.log(`Attempting to get location: (${locId})`);
     return this.http.get<Location>(environment.apiUrl + `locations/${locId}`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

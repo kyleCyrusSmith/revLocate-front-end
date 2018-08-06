@@ -44,7 +44,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'lobby',
-    component: TestLobbyComponent, // GameLobbyComponent,
+    component: GameLobbyComponent,
     runGuardsAndResolvers: 'always',
   },
   {

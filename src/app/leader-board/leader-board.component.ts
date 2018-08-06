@@ -52,7 +52,7 @@ export class LeaderBoardComponent implements OnInit, DoCheck {
   getHighUserScores(allUsers: User[]) {
     let i;
     for (i = 0; i < allUsers.length; i++) {
-      this.userScoreArr[i] = { username: allUsers[i].username, highscore: allUsers[i].high_Score };
+      this.userScoreArr[i] = { username: allUsers[i].username, highscore: allUsers[i].highScore };
     }
     return sortByScore(this.userScoreArr).reverse();
   }

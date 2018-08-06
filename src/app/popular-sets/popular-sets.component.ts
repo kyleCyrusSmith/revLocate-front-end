@@ -34,7 +34,7 @@ export class PopularSetsComponent implements OnInit, DoCheck {
 
     this.locService.getAllSets().subscribe(response => {
       console.log(`response status from popular sets component: ` + response.status);
-      if (response.status >= 200 && 300) {
+      if (response.status >= 200 && response.status < 300) {
         console.log(`all sets retrieved by popular set component`);
         this.dataSource = new MatTableDataSource(this.getPopularSets(response.body));
       } else {
