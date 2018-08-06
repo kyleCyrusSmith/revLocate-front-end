@@ -85,7 +85,7 @@ import { PlaySetComponent, PlaySetBottomSheetComponent } from './play-set/play-s
     PlayBottomSheetComponent,
     CreateSetBottomSheetComponent,
     PlaySetComponent,
-    PlaySetBottomSheetComponent
+    PlaySetBottomSheetComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,6 +107,7 @@ import { PlaySetComponent, PlaySetBottomSheetComponent } from './play-set/play-s
     MatPaginatorModule,
     MatSortModule,
     MatProgressBarModule,
+    MatSliderModule
   ],
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,

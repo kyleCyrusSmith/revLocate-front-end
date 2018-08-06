@@ -20,6 +20,7 @@ let locationArray = [];
 let count = 0;
 let open = true;
 let setScore = 0;
+let setRating = 0;
 @Component({
   selector: 'app-play-set',
   templateUrl: './play-set.component.html',

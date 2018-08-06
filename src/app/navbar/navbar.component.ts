@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit, DoCheck {
   ngDoCheck() {
     this.loggedIn = (localStorage.getItem('user') !== null) ? true : false;
     if (this.loggedIn) {
-      this.totalScore = (JSON.parse(localStorage.getItem('user')).high_Score);
+      this.totalScore = (JSON.parse(localStorage.getItem('user')).highScore);
       this.revCoins = (JSON.parse(localStorage.getItem('user')).coins);
     }
   }
