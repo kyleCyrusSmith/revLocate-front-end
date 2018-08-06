@@ -127,7 +127,7 @@ export class CreateSetBottomSheetComponent {
     if (this.setNameFormControl.hasError('required')) {
     } else {
 
-      this.locService.saveSet(this.userSet).subscribe(response => {
+      this.locService.createSet(this.userSet).subscribe(response => {
         if (response.status >= 200 && response.status < 300) {
           this.bottomSheetRef.dismiss();
           this.router.navigate(['home']);
