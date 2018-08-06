@@ -74,7 +74,7 @@ export class UserService {
 
   public getAllFriends(currentUser: User) {
     console.log(`Getting all friends of ${currentUser.username}`);
-    return this.http.get<User[]>(environment.apiUrl + 'users/friends', {
+    return this.http.get<User[]>(environment.apiUrl + `users/${currentUser.userId}/friends`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });

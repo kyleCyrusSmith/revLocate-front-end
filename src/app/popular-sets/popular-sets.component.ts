@@ -79,14 +79,14 @@ export class PopularSetBottomSheetComponent {
   displayedColumns: string[] = ['setName', 'rating', 'highscore'];
   dataSource: PopularSet[] = [{ setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>, private router: Router) { }
+  constructor(private locService: LocationService, private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>,
+    private router: Router) { }
 
   playSet() {
     console.log(`play set`);
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['play']);
-    /* add a link to start a solo game of this set
-    */
+    localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
+    this.router.navigate(['play-set']);
   }
 
 }
