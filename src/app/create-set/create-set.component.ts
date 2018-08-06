@@ -8,6 +8,7 @@ import { LocationService } from '../location.service';
 import { Location } from '../models/location';
 import { Set } from '../models/set';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 declare const google: any;
 
@@ -25,7 +26,7 @@ export class CreateSetComponent implements OnInit {
   userSet: Set = new Set;
   locCount = 0;
 
-  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet) { }
+  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet,private http: HttpClient) { }
 
   ngOnInit() {
     this.initialize();
@@ -53,22 +54,46 @@ export class CreateSetComponent implements OnInit {
       this.lng = panorama.getPosition().lng();
     });
   }
+  apiKey='AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0';
+  timestamp= 1331161200;
+  public getApis() {
+   /* 2 strings for apis 
+    set both alt and timezone for newLoc*/
+    this.getTimezone().subscribe(response =>{
+      if (response.status >= 200 && response.status < 300) {
+     let timezone = response.body.timeZoneName;
+        this.getElevation().subscribe(response =>{
+          if (response.status >= 200 && response.status < 300) {
+            let altitude = response.body.elevation;
+            this.saveLocation(timezone, altitude);
+          }
+        });
+      }
+    });
+  }
 
-  // public getApis(newLoc:Location) {
-  //  /* 2 strings for apis 
-  //   set both alt and timezone for newLoc*/
-  //   //${newLoc.altitude}
-  //   let timestamp= new Date().getTime//&key={apiKey}
-  //   let 
-  // }
+  public getTimezone(){
+    return this.http.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${this.lat},${this.lng}&timestamp=${this.timestamp}&key=${this.apiKey}`, {
+      observe: 'response'
+    });
+  }
 
-  public saveLocation() {
+  public getElevation(){
+    return this.http.get<Object>(`https://maps.googleapis.com/maps/api/elevation/json?locations=${this.lat},${this.lng}&key=${this.apiKey}`, {
+      observe: 'response'
+    });
+  }
+
+  public saveLocation(timezone:string, altitude:number) {
     console.log(`in save location: ${this.lat}, ${this.lng}`);
     const newLoc: Location = new Location;
     newLoc.latitude = this.lat;
     newLoc.longitude = this.lng;
+    newLoc.altitude = altitude;
+    newLoc.timeZone = timezone;
     newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
     //this.getApis();
+    console.log(newLoc);
     this.locService.saveLocation(newLoc).subscribe(response => {
       if (response.status >= 200 && response.status < 300) {
         switch (this.locCount) {
