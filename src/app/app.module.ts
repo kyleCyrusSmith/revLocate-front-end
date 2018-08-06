@@ -61,7 +61,6 @@ import { FriendsComponent, FriendsBottomSheetComponent } from './friends/friends
 import { } from '@types/googlemaps';
 import { } from '@types/google-maps';
 import { PlayComponent, PlayBottomSheetComponent } from './play/play.component';
-import { TestLobbyComponent, TestLobbyBottomSheetComponent } from './test-lobby/test-lobby.component';
 
 @NgModule({
   declarations: [
@@ -83,9 +82,7 @@ import { TestLobbyComponent, TestLobbyBottomSheetComponent } from './test-lobby/
     FriendsComponent,
     FriendsBottomSheetComponent,
     PlayBottomSheetComponent,
-    CreateSetBottomSheetComponent,
-    TestLobbyComponent,
-    TestLobbyBottomSheetComponent
+    CreateSetBottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +108,7 @@ import { TestLobbyComponent, TestLobbyBottomSheetComponent } from './test-lobby/
   entryComponents: [LeaderBoardComponent, LeaderBoardBottomSheetComponent,
     PopularSetsComponent, PopularSetBottomSheetComponent,
     GameLobbyComponent, GameLobbyBottomSheetComponent, PlayBottomSheetComponent,
-    FriendsComponent, FriendsBottomSheetComponent, CreateSetBottomSheetComponent, TestLobbyBottomSheetComponent],
+    FriendsComponent, FriendsBottomSheetComponent, CreateSetBottomSheetComponent],
   //  providers: [{ provide: ErrorHandler, useClass: StatusCodeHandlerService }],
   providers: [],
   bootstrap: [AppComponent]

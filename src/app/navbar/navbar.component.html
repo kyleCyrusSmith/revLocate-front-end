@@ -6,11 +6,13 @@
   </span>
   <span *ngIf="loggedIn">
     <a mat-button color="secondary" routerLink="/home"> Home </a>
-    <a mat-button color="secondary" routerLink="/play"> Play! (game) </a>
-    <a mat-button color="secondary" routerLink="/lobby"> Play! (lobby) </a>
+    <a mat-button color="secondary" routerLink="/play"> Random Game </a>
+    <a mat-button color="secondary" routerLink="/lobby"> Play Set </a>
     <a mat-button color="secondary" routerLink="/create"> Create Set </a>
     <a mat-button color="secondary" routerLink="/friends"> Friends </a>
   </span>
+  <span style="flex: 1 1 auto;"></span>
+  <span *ngIf="loggedIn"> revCoins: {{revCoins}} </span>
   <span style="flex: 1 1 auto;"></span>
   <span *ngIf="loggedIn"> Total Score: {{totalScore}} </span>
   <span>

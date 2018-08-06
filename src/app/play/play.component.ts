@@ -228,10 +228,10 @@ export class PlayComponent implements OnInit, OnDestroy {
   public updateScore() {
     console.log('score is ' + score);
     loggedUser = JSON.parse(localStorage.getItem('user'));
-    console.log('current user score is ' + loggedUser.high_Score);
-    console.log(loggedUser.high_Score + 'highscore before update');
-    loggedUser.high_Score = loggedUser.high_Score + score;
-    console.log(loggedUser.high_Score + 'highscore after update');
+    console.log('current user score is ' + loggedUser.highScore);
+    console.log(loggedUser.highScore + 'highscore before update');
+    loggedUser.highScore = loggedUser.highScore + score;
+    console.log(loggedUser.highScore + 'highscore after update');
     console.log(loggedUser + 'user after update');
     this.userService.updateUser(loggedUser).subscribe(response => {
       console.log(`response status from profile component: ` + response.status);
@@ -240,7 +240,7 @@ export class PlayComponent implements OnInit, OnDestroy {
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
-        console.log(loggedUser.high_Score + 'highscore after fetch update');
+        console.log(loggedUser.highScore + 'highscore after fetch update');
       } else {
         console.log(`Unable to update user`);
       }

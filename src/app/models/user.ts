@@ -3,5 +3,6 @@ export class User {
     username: string;
     password: string;
     email: string;
-    high_Score: number;
+    highScore: number;
+    coins: number;
 }

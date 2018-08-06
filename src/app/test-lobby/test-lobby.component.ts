@@ -19,7 +19,7 @@ let setClicked;
 })
 export class TestLobbyComponent implements OnInit {
   // MatPaginator Inputs
-  length = 100; // Make call to server to get number of sets
+  length = 100; // Make call to server to get Number of sets
   pageSize = 3;
 
   // MatPaginator Output
@@ -44,7 +44,7 @@ export class TestLobbyComponent implements OnInit {
 })
 export class TestLobbyBottomSheetComponent {
 
-  displayedColumns: string[] = ['setName', 'rating', 'highscore'];
+  displayedColumns: String[] = ['setName', 'rating', 'highscore'];
   dataSource: LocationSet = { setName: setClicked.setName, rating: setClicked.rating, highscore: setClicked.highscore };
 
   constructor(private bottomSheetRef: MatBottomSheetRef<TestLobbyBottomSheetComponent>, private router: Router) { }
@@ -69,6 +69,8 @@ import { LocationService } from '../location.service';
 import { Set } from '../models/set';
 
 export interface PopularSet {
+  location: String;
+  locationId: Number;
   setName: String;
   rating: Number;
   highscore: Number;
@@ -83,12 +85,16 @@ let rowClicked;
 })
 export class TestLobbyComponent implements OnInit, DoCheck {
 
-  displayedColumns: string[] = ['setName', 'rating', 'highscore'];
+  displayedColumns: String[] = ['snapshot', 'setName', 'rating', 'highscore'];
+  // displayedColumns: String[] = ['setName', 'rating', 'highscore'];
   dataSource: MatTableDataSource<PopularSet>;
 
   popSetArr: PopularSet[] = [];
+  locString: String;
+  testLocString = '42.35930583333334000,-71.16617388888892000';
 
   switched = false;
+  locationsRetrieved = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -97,7 +103,7 @@ export class TestLobbyComponent implements OnInit, DoCheck {
 
     this.locService.getAllSets().subscribe(response => {
       console.log(`response status from popular sets component: ` + response.status);
-      if (response.status >= 200 && 300) {
+      if (response.status >= 200 && response.status < 300) {
         console.log(`all sets retrieved by popular set component`);
         this.dataSource = new MatTableDataSource(this.getTestLobby(response.body));
       } else {
@@ -117,18 +123,52 @@ export class TestLobbyComponent implements OnInit, DoCheck {
   getTestLobby(allSets: Set[]) {
     let i;
     for (i = 0; i < allSets.length; i++) {
-      this.popSetArr[i] = { setName: allSets[i].name, rating: allSets[i].rating, highscore: allSets[i].highScore };
+      this.popSetArr[i] = {
+        location: '', locationId: allSets[i].loc1, setName: allSets[i].name,
+        rating: allSets[i].rating, highscore: allSets[i].highScore
+      };
+      console.log(this.popSetArr[i].location);
     }
+    this.popSetArr = this.getLocationString();
     return sortByRating(this.popSetArr).reverse();
   }
 
+  getLocationString(): PopularSet[] {
+    let i = 0, j = 0;
+    for (i = 0; i < this.popSetArr.length; i++) {
+
+    this.locService.getLocation(this.popSetArr[i].locationId).subscribe((response) => {
+      console.log(`response status from test lobby component: ` + response.status);
+      if (response.status >= 200 && response.status < 300) {
+        console.log(`location retrieved by test lobby component`);
+        this.locString = String(response.body.latitude) + ',' + String(response.body.longitude);
+        console.log(this.locString);
+        console.log(`i: ${i}, j: ${j}, arrLength: ${this.popSetArr.length}`);
+        this.popSetArr[j].location = this.locString;
+        j++;
+        if (j === (this.popSetArr.length)) {
+          this.locationsRetrieved = true;
+          console.log('LOCATIONSRETRIEVED set to true');
+        }
+      } else {
+        console.log(`popular set board did not retrieve all sets`);
+        this.locString = '42.35930583333334000,-71.16617388888892000';
+      }
+    });
+  }
+    console.log(`just before return ` + this.locString);
+    return this.popSetArr;
+  }
+
   ngDoCheck() {
-    if (this.dataSource !== undefined && !this.switched) {
+    if (this.dataSource !== undefined && !this.switched && this.locationsRetrieved) {
       console.log(`hey in pop set`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
- //     this.dataSource.
       this.switched = true;
+      console.log(`in DoCheck. LacationsRetrived: ${this.locationsRetrieved}`);
+      console.log(`LocString in doCheck ` + this.locString);
+      console.log(`popsetarr location: ${this.popSetArr[2].location}`);
     }
   }
 
@@ -140,8 +180,12 @@ export class TestLobbyComponent implements OnInit, DoCheck {
 })
 export class TestLobbyBottomSheetComponent {
 
-  displayedColumns: string[] = ['setName', 'rating', 'highscore'];
-  dataSource: PopularSet[] = [{ setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore }];
+  displayedColumns: String[] = ['snapshot', 'setName', 'rating', 'highscore'];
+  // displayedColumns: String[] = ['setName', 'rating', 'highscore'];
+  dataSource: PopularSet[] = [{
+    location: 'test', locationId: 0,
+    setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore
+  }];
 
   constructor(private bottomSheetRef: MatBottomSheetRef<TestLobbyBottomSheetComponent>, private router: Router) { }
 
