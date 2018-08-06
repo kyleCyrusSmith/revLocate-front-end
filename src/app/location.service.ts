@@ -52,6 +52,14 @@ export class LocationService {
       observe: 'response'
     });
   }
+  
+  public createSet(newSet: Set) {
+    const json = JSON.stringify(newSet);
+    return this.http.post<Set>(environment.apiUrl + 'sets', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
 
   public getAllSets() {
     return this.http.get<Set[]>(environment.apiUrl + 'sets', {
