@@ -212,7 +212,7 @@ export class PlayComponent implements OnInit, OnDestroy {
 
   public updateScore() {
     loggedUser = JSON.parse(localStorage.getItem('user'));
-    loggedUser.high_Score = loggedUser.high_Score + score;
+    loggedUser.highScore = loggedUser.highScore + score;
     if (score > 1000) {
       loggedUser.coins = loggedUser.coins += 1;
     }

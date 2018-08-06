@@ -86,8 +86,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
   ngOnInit () {
   }
 
-
-
   public makeMaps () {
     console.log(nextLoc.latitude + ' lng = ' + nextLoc.longitude);
     this.panorama = new google.maps.StreetViewPanorama(
@@ -137,7 +135,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c;
-    return d / 1000;
+    return d / 1000; // killometers
   }
 
   public polyLines () {
@@ -229,7 +227,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     this.bottomSheet.open(PlaySetBottomSheetComponent);
     this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe(
       (event) => {
-        console.log(setArray.length + 'bottom sheet close works' + count);
         if (count + 1 < setArray.length) {
           this.created = false;
           this.getLocation(setArray[count += 1]);
@@ -274,7 +271,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
 
   public updateScore() {
     loggedUser = JSON.parse(localStorage.getItem('user'));
-    loggedUser.high_Score = loggedUser.high_Score + score;
+    loggedUser.highScore = loggedUser.highScore + score;
     if (score > 1000) {
       loggedUser.coins = loggedUser.coins += 1;
     }
