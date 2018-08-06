@@ -5,10 +5,13 @@
     <div id="wrapper" style="position: relative;">
       <div style="width: 100%; height: 525px;" id="panorama"></div>
 
-      <div id="floatMap" style="position: absolute; top: 52%; left: 72%; z-index: 98; width: 250px; height: 200px; opacity: .8;">
+      <div id="floatMap" style="position: absolute; top: 52%; left: 71%; z-index: 98; width: 250px; height: 200px; opacity: .8;">
       </div>
-      <div style="position: absolute; top: 90%; left: 80%; z-index: 99; opacity: 1;">
+      <div style="position: absolute; top: 90%; left: 76%; z-index: 99; opacity: 1;">
         <button mat-raised-button color="primary" (click)="submitAns()">GUESS LOCATION</button>
+      </div>
+      <div style="position: absolute; top: 8%; left: 5%; z-index: 99; opacity: .5;">
+        <button mat-raised-button color="primary" (click)="getHint()">Hint</button>
       </div>
     </div>
   </mat-card-content>
