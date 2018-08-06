@@ -36,16 +36,12 @@ export class LoginComponent implements OnInit {
   login() {
 
     if (this.usernameFormControl.hasError('required') || this.passwordFormControl.hasError('required')) {
-      console.log(`login is missing fields`);
       this.isValid = false;
     } else {
       this.userService.loginUser(this.user).subscribe(response => {
-        console.log(`response status from login component: ` + response.status);
         if (response.status === 200) {
           this.isValid = true;
           localStorage.setItem('user', JSON.stringify(response.body));
-          console.log(`User, ${response.body.username}, successfully logged in!`);
-          console.log(`local storage user: ` + localStorage.getItem('user'));
           this.router.navigate(['home']);
         } else {
           this.isValid = false;

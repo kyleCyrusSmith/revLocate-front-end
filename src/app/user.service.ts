@@ -19,9 +19,7 @@ export class UserService {
   }
 
   public loginUser(user: User) {
-    console.log(`Attempting to login user: ${user.username}`);
     const json = JSON.stringify(user);
-    console.log(`JSON: ` + json);
     return this.http.post<User>(environment.apiUrl + 'users/login', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -29,7 +27,6 @@ export class UserService {
   }
 
   public registerUser(user: User) {
-    console.log(`Attempting to register user: ${user.username}`);
     const json = JSON.stringify(user);
     return this.http.post<User>(environment.apiUrl + 'users', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -38,7 +35,6 @@ export class UserService {
   }
 
   public updateUser(user: User) {
-    console.log(`Attempting to update user: ${user.username}`);
     const json = JSON.stringify(user);
     return this.http.put<User>(environment.apiUrl + 'users', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -47,7 +43,6 @@ export class UserService {
   }
 
   public getAllUsers() {
-    console.log(`Getting all users`);
     return this.http.get<User[]>(environment.apiUrl + 'users', {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
@@ -55,7 +50,6 @@ export class UserService {
   }
 
   public addFriend(user: User, targetName: String) {
-    console.log(`${user.username} is attempting to add friend: ${targetName}`);
     const json = JSON.stringify({ targetName, user });
     return this.http.post(environment.apiUrl + 'users/friends/add', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -64,7 +58,6 @@ export class UserService {
   }
 
   public removeFriend(user: User, targetName: String) {
-    console.log(`${user.username} is attempting to remove friend: ${targetName}`);
     const json = JSON.stringify({ targetName, user });
     return this.http.post(environment.apiUrl + 'users/friends/remove', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -73,8 +66,16 @@ export class UserService {
   }
 
   public getAllFriends(currentUser: User) {
-    console.log(`Getting all friends of ${currentUser.username}`);
     return this.http.get<User[]>(environment.apiUrl + `users/${currentUser.userId}/friends`, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
+  public sendEmail(userList: string[], messageBody: string, messageSubject: string) {
+    console.log(`Sending email with body: ${messageBody}, and subject: ${messageSubject} to: ${userList}`);
+    const json = JSON.stringify({messageBody, messageSubject, userList});
+    return this.http.post<User[]>(environment.apiUrl + `messages`, json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });

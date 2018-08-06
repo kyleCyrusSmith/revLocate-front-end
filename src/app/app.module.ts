@@ -51,7 +51,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeaderBoardComponent, LeaderBoardBottomSheetComponent } from './leader-board/leader-board.component';
 import { PopularSetsComponent, PopularSetBottomSheetComponent } from './popular-sets/popular-sets.component';
-import { MessageBarComponent } from './message-bar/message-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StatusCodeHandlerService } from './status-code-handler.service';
 import { ProfileComponent } from './profile/profile.component';
@@ -72,7 +71,6 @@ import { PlaySetComponent, PlaySetBottomSheetComponent } from './play-set/play-s
     NavbarComponent,
     LeaderBoardComponent,
     PopularSetsComponent,
-    MessageBarComponent,
     PlayComponent,
     LeaderBoardBottomSheetComponent,
     PopularSetBottomSheetComponent,

@@ -50,7 +50,6 @@ export class CreateSetComponent implements OnInit {
     map.setStreetView(panorama);
 
     panorama.addListener('position_changed', () => {
-      console.log(`new position: (${panorama.getPosition().lat()}, ${panorama.getPosition().lng()})`);
       this.lat = panorama.getPosition().lat();
       this.lng = panorama.getPosition().lng();
     });
@@ -93,11 +92,10 @@ export class CreateSetComponent implements OnInit {
     newLoc.altitude = altitude;
     newLoc.timeZone = timezone;
     newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
+    //this.getApis();
     console.log(newLoc);
     this.locService.saveLocation(newLoc).subscribe(response => {
-      console.log(`response status from create location component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`New location successfully created!`);
         switch (this.locCount) {
           case 0:
             this.userSet.loc1 = response.body.locationId;
@@ -116,13 +114,11 @@ export class CreateSetComponent implements OnInit {
         }
         this.locCount++;
       } else {
-        console.log(`Location creation failed. Status code: ${response.status}`);
       }
     });
   }
 
   public saveSet() {
-    console.log(`In save set with newSet: ${this.userSet}`);
     this.locService.tempSet = this.userSet;
     this.bottomSheet.open(CreateSetBottomSheetComponent);
   }
@@ -144,18 +140,13 @@ export class CreateSetBottomSheetComponent {
 
   submitSet() {
     if (this.setNameFormControl.hasError('required')) {
-      console.log(`submit sheet is missing fields`);
     } else {
-      console.log(`submit set: ${this.userSet}`);
 
       this.locService.saveSet(this.userSet).subscribe(response => {
-        console.log(`response status from create set component: ` + response.status);
         if (response.status >= 200 && response.status < 300) {
-          console.log(`New set successfully created!`);
           this.bottomSheetRef.dismiss();
           this.router.navigate(['home']);
         } else {
-          console.log(`Location creation failed. Status code: ${response.status}`);
           this.router.navigate(['home']);
         }
       });
