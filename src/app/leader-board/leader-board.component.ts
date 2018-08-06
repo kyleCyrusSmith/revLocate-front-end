@@ -31,12 +31,9 @@ export class LeaderBoardComponent implements OnInit, DoCheck {
   constructor(private userService: UserService, private bottomSheet: MatBottomSheet) {
 
     this.userService.getAllUsers().subscribe(response => {
-      console.log(`response status from leader board component: ` + response.status);
       if (response.status >= 200 && 300) {
-        console.log(`all users retrieved by leader board`);
         this.dataSource = new MatTableDataSource(this.getHighUserScores(response.body));
       } else {
-        console.log(`leaderboard did not retrieve all users`);
       }
     });
   }
@@ -59,7 +56,6 @@ export class LeaderBoardComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     if (this.dataSource !== undefined && !this.switched) {
-      console.log(`hey`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.switched = true;
@@ -79,22 +75,22 @@ export class LeaderBoardBottomSheetComponent {
   constructor(private userService: UserService, private bottomSheetRef: MatBottomSheetRef<LeaderBoardBottomSheetComponent>) { }
 
   challengeUser() {
-    console.log(`challenge user`);
-    this.bottomSheetRef.dismiss();
-    /* add a link to start a solo game that compares final scores
-    */
+    const subject = `You've been challenged!`;
+    const body = `${JSON.parse(localStorage.getItem('user')).username} is laughing at your score!
+    Come play revLocate and claim your spot on top of the leader board! \n\nThe revLocate Team`;
+    this.userService.sendEmail([rowClicked.username], body, subject).subscribe(response => {
+      if (response.status >= 200 && response.status < 300) {
+        this.bottomSheetRef.dismiss();
+      } else {
+      }
+    });
   }
 
   addFriend() {
-    console.log(`add friend called`);
-
     this.userService.addFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
-      console.log(`response status from add friend in leader board bottom sheet component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`User, ${rowClicked.username}, successfully added as friend!`);
         this.bottomSheetRef.dismiss();
       } else {
-        console.log(`Unable to add friend`);
       }
     });
   }

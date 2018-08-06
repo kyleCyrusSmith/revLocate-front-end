@@ -7,6 +7,7 @@ import { Set } from '../models/set';
 
 export interface PopularSet {
   setName: String;
+  setId: Number;
   rating: Number;
   highscore: Number;
 }
@@ -33,12 +34,9 @@ export class PopularSetsComponent implements OnInit, DoCheck {
   constructor(private locService: LocationService, private bottomSheet: MatBottomSheet) {
 
     this.locService.getAllSets().subscribe(response => {
-      console.log(`response status from popular sets component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
-        console.log(`all sets retrieved by popular set component`);
         this.dataSource = new MatTableDataSource(this.getPopularSets(response.body));
       } else {
-        console.log(`popular set board did not retrieve all sets`);
       }
     });
   }
@@ -54,14 +52,13 @@ export class PopularSetsComponent implements OnInit, DoCheck {
   getPopularSets(allSets: Set[]) {
     let i;
     for (i = 0; i < allSets.length; i++) {
-      this.popSetArr[i] = { setName: allSets[i].name, rating: allSets[i].rating, highscore: allSets[i].highScore };
+      this.popSetArr[i] = { setName: allSets[i].name, setId: allSets[i].setId, rating: allSets[i].rating, highscore: allSets[i].highScore };
     }
     return sortByRating(this.popSetArr).reverse();
   }
 
   ngDoCheck() {
     if (this.dataSource !== undefined && !this.switched) {
-      console.log(`hey in pop set`);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.switched = true;
@@ -77,16 +74,23 @@ export class PopularSetsComponent implements OnInit, DoCheck {
 export class PopularSetBottomSheetComponent {
 
   displayedColumns: string[] = ['setName', 'rating', 'highscore'];
-  dataSource: PopularSet[] = [{ setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore }];
+  dataSource: PopularSet[] = [{
+    setName: rowClicked.setName, setId: rowClicked.setId,
+    rating: rowClicked.rating, highscore: rowClicked.highscore
+  }];
 
   constructor(private locService: LocationService, private bottomSheetRef: MatBottomSheetRef<PopularSetBottomSheetComponent>,
     private router: Router) { }
 
   playSet() {
-    console.log(`play set`);
     this.bottomSheetRef.dismiss();
-    localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
-    this.router.navigate(['play-set']);
+    this.locService.getSet(this.dataSource[0].setId).subscribe(response => {
+      if (response.status >= 200 && response.status < 300) {
+        localStorage.setItem('set', JSON.stringify(response.body));
+        this.router.navigate(['play-set']);
+      } else {
+      }
+    });
   }
 
 }

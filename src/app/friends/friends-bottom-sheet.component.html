@@ -1,16 +1,17 @@
 <mat-nav-list>
-    <mat-toolbar *ngIf="addingFriend">
-        <span>
-            <mat-form-field class="form-group col centered">
-                <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username" (keyup.enter)="addFriend()">
-                <mat-error *ngIf="usernameFormControl.hasError('required')">
-                    Username is
-                    <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </span>
-    </mat-toolbar>
-
+    <mat-card *ngIf="addingFriend" class="mat-elevation-z0">
+        <mat-toolbar style="background-color: transparent;">
+            <span>
+                <mat-form-field class="form-group col centered">
+                    <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username" (keyup.enter)="addFriend()">
+                    <mat-error *ngIf="usernameFormControl.hasError('required')">
+                        Username is
+                        <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </span>
+        </mat-toolbar>
+    </mat-card>
     <mat-table *ngIf="removingFriend" [dataSource]="dataSource" class="mat-elevation-z2">
 
         <ng-container matColumnDef="username">

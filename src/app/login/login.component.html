@@ -1,4 +1,4 @@
-<div class="container centered col-5 p-4 my-4 mat-elevation-z3 rounded bg-light" color="secondary">
+<div class="container centered col-5 p-4 my-4 mat-elevation-z3 rounded bg-light">
   <h2 class="text-center">Login</h2>
   <hr>
   <mat-form-field class="form-group col centered">
@@ -18,7 +18,7 @@
     <mat-icon matSuffix color="primary" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <br>
-  <mat-toolbar class="justify-content-end d-flex">
+  <mat-toolbar class="justify-content-end d-flex bg-light">
     <span>
       <mat-toolbar *ngIf="!isValid" color="warn" id="formError">
         <font size="2"> Invalid or Missing Credentials! </font>

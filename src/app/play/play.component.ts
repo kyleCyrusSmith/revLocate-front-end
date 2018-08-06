@@ -13,6 +13,7 @@ let points: number;
 let score: number;
 let randLoc: Location = new Location;
 let loggedUser: User;
+
 @Component({
   selector: 'app-play',
   templateUrl: './play.component.html',
@@ -176,7 +177,6 @@ export class PlayComponent implements OnInit, OnDestroy {
     const R = 6371e3;
     const calc: number = R * .4;
     const dist = theDistance * 1000;
-    console.log(dist);
     if (dist <= calc) {
       points = 100 - (dist / calc) * 100;
     } else {
@@ -222,7 +222,6 @@ export class PlayComponent implements OnInit, OnDestroy {
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
       } else {
-        console.log(`Unable to update user`);
       }
     });
   }
@@ -239,8 +238,6 @@ export class PlayBottomSheetComponent {
   constructor(private bottomSheetRef: MatBottomSheetRef<PlayBottomSheetComponent>, private router: Router) { }
 
   newGame () {
-    console.log(theDistance);
-    console.log(`challenge user`);
     this.bottomSheetRef.dismiss();
     this.router.navigate(['play']);
   }

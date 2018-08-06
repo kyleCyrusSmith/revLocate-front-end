@@ -51,22 +51,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     });
   }
   initialisePlaySet () {
-    currSet = {
-          setId: 5,
-          name: "It's Cold",
-          loc1: 88,
-          loc2: 89,
-          loc3: 90,
-          loc4: 0,
-          loc5: 0,
-          authorId: 5,
-          rating: 0,
-          totalRating: 0,
-          totalRated: 0,
-          highScore: 0
-    };
-    localStorage.setItem('set', JSON.stringify(currSet));
-    console.log('set array length is ' + setArray.length);
     if (setArray.length === 0) {
       this.getSet();
       this.getLocation(setArray[count]);
@@ -88,7 +72,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
   }
 
   public makeMaps () {
-    console.log(nextLoc.latitude + ' lng = ' + nextLoc.longitude);
     this.panorama = new google.maps.StreetViewPanorama(
       document.getElementById('panorama'), {
         position: { lat: nextLoc.latitude, lng: nextLoc.longitude },
@@ -202,7 +185,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     const R = 6371e3;
     const calc: number = R * .4;
     const dist = theDistance * 1000;
-    console.log(dist);
     if (dist <= calc) {
       points = 100 - (dist / calc) * 100;
     } else {
@@ -240,7 +222,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
-                console.log(`Unable to update user`);
               }});
             alert('you broke the Highscore!');
           }
@@ -253,7 +234,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
       this.locService.getLocation(value).subscribe(response => {
         if (response.status === 200) {
           nextLoc = response.body;
-          console.log('got location ' + nextLoc);
             this.makeMaps();
         }
       });
@@ -267,7 +247,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
         setArray.push(value);
       }
     });
-    console.log('current set ' + setArray);
   }
 
   public updateScore() {
@@ -282,7 +261,6 @@ export class PlaySetComponent implements OnInit, OnDestroy {
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
       } else {
-        console.log(`Unable to update user`);
       }
     });
   }
@@ -299,7 +277,6 @@ export class PlaySetBottomSheetComponent {
   constructor(private bottomSheetRef: MatBottomSheetRef<PlaySetBottomSheetComponent>, private router: Router) {}
 
   nextLocation () {
-    console.log('---------------------nav to net location------------');
     open = false;
     this.bottomSheetRef.dismiss();
   }

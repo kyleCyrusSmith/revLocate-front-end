@@ -41,7 +41,7 @@
     <mat-icon matSuffix color="primary" (click)="hideConfirmPassword = !hideConfirmPassword">{{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <br>
-  <mat-toolbar class="justify-content-end d-flex">
+  <mat-toolbar class="justify-content-end d-flex bg-light">
     <span>
       <mat-toolbar *ngIf="!isValid" color="warn" id="formError">
         <font size="2"> Invalid or Missing Credentials! </font>

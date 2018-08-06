@@ -56,20 +56,15 @@ export class ProfileComponent implements OnInit {
     if (this.usernameFormControl.hasError('required') || this.passwordFormControl.hasError('required') ||
       this.emailFormControl.hasError('email') || this.emailFormControl.hasError('required') ||
       this.confirmPasswordFormControl.hasError('required')) {
-      console.log(`profile is missing fields`);
       this.isValid = false;
-      //      this.router.navigate(['profile']);
     } else {
       this.userService.updateUser(this.user).subscribe(response => {
-        console.log(`response status from profile component: ` + response.status);
         if (response.status === 202) {
           this.isValid = true;
-          console.log(`User, ${response.body.username}, successfully updated!`);
           localStorage.clear();
           localStorage.setItem('user', JSON.stringify(response.body));
           this.router.navigate(['home']);
         } else {
-          console.log(`Unable to update user`);
           this.isValid = false;
         }
       });
