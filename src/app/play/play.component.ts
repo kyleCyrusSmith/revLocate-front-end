@@ -212,27 +212,15 @@ export class PlayComponent implements OnInit, OnDestroy {
 
   public updateScore() {
     loggedUser = JSON.parse(localStorage.getItem('user'));
-<<<<<<< HEAD
     loggedUser.highScore = loggedUser.highScore + score;
     if (score > 1000) {
       loggedUser.coins = loggedUser.coins += 1;
     }
-=======
-    console.log('current user score is ' + loggedUser.highScore);
-    console.log(loggedUser.highScore + 'highscore before update');
-    loggedUser.highScore = loggedUser.highScore + score;
-    console.log(loggedUser.highScore + 'highscore after update');
-    console.log(loggedUser + 'user after update');
->>>>>>> 51ee0a07f4f0cb9666de046139e08dfe3301ffa3
     this.userService.updateUser(loggedUser).subscribe(response => {
       if (response.status === 202) {
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
-<<<<<<< HEAD
-=======
-        console.log(loggedUser.highScore + 'highscore after fetch update');
->>>>>>> 51ee0a07f4f0cb9666de046139e08dfe3301ffa3
       } else {
         console.log(`Unable to update user`);
       }

@@ -53,16 +53,16 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     currSet = {
           setId: 5,
           name: "It's Cold",
-          loc1Id: 88,
-          loc2Id: 89,
-          loc3Id: 90,
-          loc4Id: 0,
-          loc5Id: 0,
+          loc1: 88,
+          loc2: 89,
+          loc3: 90,
+          loc4: 0,
+          loc5: 0,
           authorId: 5,
           rating: 0,
           totalRating: 0,
           totalRated: 0,
-          highscore: 0
+          highScore: 0
     };
     localStorage.setItem('set', JSON.stringify(currSet));
     console.log('set array length is ' + setArray.length);
@@ -231,8 +231,8 @@ export class PlaySetComponent implements OnInit, OnDestroy {
           this.created = false;
           this.getLocation(setArray[count += 1]);
         } else {
-          if (setScore > currSet.highscore) {
-            currSet.highscore = setScore;
+          if (setScore > currSet.highScore) {
+            currSet.highScore = setScore;
             this.locService.saveSet(currSet).subscribe(response => {
               if (response.status === 202) {
                 localStorage.clear();
@@ -260,7 +260,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
 
   public getSet() {
     currSet = JSON.parse(localStorage.getItem('set'));
-    const locArray = [currSet.loc1Id, currSet.loc2Id, currSet.loc3Id, currSet.loc4Id, currSet.loc5Id];
+    const locArray = [currSet.loc1, currSet.loc2, currSet.loc3, currSet.loc4, currSet.loc5];
     locArray.forEach((value, index) => {
       if (value !== 0) {
         setArray.push(value);
