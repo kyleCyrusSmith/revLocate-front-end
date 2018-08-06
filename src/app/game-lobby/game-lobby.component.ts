@@ -134,7 +134,7 @@ export class GameLobbyBottomSheetComponent {
   playSet() {
     console.log(`play set`);
     this.bottomSheetRef.dismiss();
-    localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
+    //localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
     this.router.navigate(['play-set']);
   }
 

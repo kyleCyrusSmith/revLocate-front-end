@@ -203,7 +203,7 @@ export class PlayComponent implements OnInit, OnDestroy {
 
   public getLocation () {
     this.locService.getRandomLocation().subscribe(response => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         randLoc = response.body;
         this.makeMaps();
       }
@@ -217,7 +217,7 @@ export class PlayComponent implements OnInit, OnDestroy {
       loggedUser.coins = loggedUser.coins += 1;
     }
     this.userService.updateUser(loggedUser).subscribe(response => {
-      if (response.status === 202) {
+      if (response.status >= 200 && response.status < 300) {
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));

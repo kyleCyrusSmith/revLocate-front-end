@@ -20,7 +20,7 @@ export class LocationService {
     console.log(`Attempting to save location: (${loc.latitude}, ${loc.longitude})`);
     const json = JSON.stringify(loc);
     console.log(`JSON: ` + json);
-    return this.http.post<Location>(environment.apiUrl + 'locations/new', json, {
+    return this.http.post<Location>(environment.apiUrl + 'locations', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });
@@ -42,8 +42,8 @@ export class LocationService {
     });
   }
 
-  public getSet(setId: Number){
-    return this.http.get<Set>(environment.apiUrl + `sets/${setId}`,{
+  public getSet(setId: Number) {
+    return this.http.get<Set>(environment.apiUrl + `sets/${setId}`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
       observe: 'response'
     });
@@ -53,7 +53,7 @@ export class LocationService {
     console.log(`Attempting to save set: (${newSet})`);
     const json = JSON.stringify(newSet);
     console.log(`JSON: ` + json);
-    return this.http.post<Set>(environment.apiUrl + 'sets/new', json, {
+    return this.http.put<Set>(environment.apiUrl + 'sets', json, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });

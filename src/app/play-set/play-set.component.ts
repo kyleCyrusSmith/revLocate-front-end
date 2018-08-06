@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { } from '@types/google-maps';
@@ -21,6 +21,8 @@ let count = 0;
 let open = true;
 let setScore = 0;
 let setRating = 0;
+let next = true;
+let endScreen = false;
 @Component({
   selector: 'app-play-set',
   templateUrl: './play-set.component.html',
@@ -63,8 +65,9 @@ export class PlaySetComponent implements OnInit, OnDestroy {
           rating: 0,
           totalRating: 0,
           totalRated: 0,
-          highScore: 0
+          highScore: 5
     };
+    next = true;
     localStorage.setItem('set', JSON.stringify(currSet));
     console.log('set array length is ' + setArray.length);
     if (setArray.length === 0) {
@@ -232,26 +235,43 @@ export class PlaySetComponent implements OnInit, OnDestroy {
           this.created = false;
           this.getLocation(setArray[count += 1]);
         } else {
+          next = false;
+          endScreen = true;
           if (setScore > currSet.highScore) {
             currSet.highScore = setScore;
             this.locService.saveSet(currSet).subscribe(response => {
-              if (response.status === 202) {
+              if (response.status >= 200 && response.status < 300) {
                 localStorage.clear();
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
                 console.log(`Unable to update user`);
               }});
-            alert('you broke the Highscore!');
           }
-          alert('you reached the end of the set');
+          this.bottomSheet.open(PlaySetBottomSheetComponent);
+          this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe( (event) => {
+            setArray = [];
+            currSet.totalRated += 1;
+            currSet.totalRating += setScore;
+            currSet.rating = currSet.totalRating / currSet.totalRated;
+            this.locService.saveSet(currSet).subscribe(response => {
+              console.log(response.status);
+              if (response.status >= 200 && response.status < 300) {
+                localStorage.clear();
+                localStorage.setItem('set', JSON.stringify(response.body));
+                loggedUser = JSON.parse(localStorage.getItem('set'));
+              } else {
+                console.log(`Unable to update user`);
+              }});
+            // this.router.navigate(['lobby']);
+            });
         }
       });
   }
 
-  public getLocation (value: number) {
-      this.locService.getLocation(value).subscribe(response => {
-        if (response.status === 200) {
+  public getLocation (val: number) {
+      this.locService.getLocation(val).subscribe(response => {
+        if (response.status >= 200 && response.status < 300) {
           nextLoc = response.body;
           console.log('got location ' + nextLoc);
             this.makeMaps();
@@ -261,10 +281,10 @@ export class PlaySetComponent implements OnInit, OnDestroy {
 
   public getSet() {
     currSet = JSON.parse(localStorage.getItem('set'));
-    const locArray = [currSet.loc1, currSet.loc2, currSet.loc3, currSet.loc4, currSet.loc5];
-    locArray.forEach((value, index) => {
-      if (value !== 0) {
-        setArray.push(value);
+    let locArray = [currSet.loc1, currSet.loc2, currSet.loc3, currSet.loc4, currSet.loc5];
+    locArray.forEach((val, index) => {
+      if (val !== 0) {
+        setArray.push(val);
       }
     });
     console.log('current set ' + setArray);
@@ -277,7 +297,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
       loggedUser.coins = loggedUser.coins += 1;
     }
     this.userService.updateUser(loggedUser).subscribe(response => {
-      if (response.status === 202) {
+      if (response.status >= 200 && response.status < 300) {
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
@@ -296,11 +316,27 @@ export class PlaySetBottomSheetComponent {
   theDistance = Math.round(theDistance);
   points = points;
   score = score;
+  next = next;
+  endScreen = endScreen;
+  currSet = currSet;
+  setScore = setScore;
+
+
   constructor(private bottomSheetRef: MatBottomSheetRef<PlaySetBottomSheetComponent>, private router: Router) {}
 
   nextLocation () {
     console.log('---------------------nav to net location------------');
     open = false;
     this.bottomSheetRef.dismiss();
+  }
+
+  endSet() {
+    console.log(setScore);
+    console.log(event.returnValue);
+    this.bottomSheetRef.dismiss();
+  }
+  onChange(event: any) {
+    console.log('changed ' + event.value);
+    setScore = event.value;
   }
 }
