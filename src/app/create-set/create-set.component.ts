@@ -61,48 +61,33 @@ export class CreateSetComponent implements OnInit {
   }
 
   public getApis() {
-    /* 2 strings for apis
-     set both alt and timezone for newLoc*/
     this.getTimezone().subscribe(timeResponse => {
       if (timeResponse.status >= 200 && timeResponse.status < 300) {
-        console.log(`get timezone response: ${timeResponse.body.timeZoneName}`);
         let timezone = timeResponse.body.timeZoneName;
-        this.getElevation().subscribe(elevationResponse => {
-          if (elevationResponse.status >= 200 && elevationResponse.status < 300) {
-            console.log(`get elevation response(body): ${elevationResponse.body}`);
-            console.log(`get elevation response(results): ${elevationResponse.body.results}`);
-            console.log(`get elevation response(results[0].elevation): ${elevationResponse.body.results[0].elevation}`);
-            let altitude = elevationResponse.body.results[0].elevation;
-            console.log(`in save location: (lat: ${this.lat}, lng: ${this.lng}), timezone: ${timezone}, altitude: ${altitude}`);
-            const newLoc: Location = new Location;
-            newLoc.latitude = this.lat;
-            newLoc.longitude = this.lng;
-            newLoc.altitude = altitude;
-            newLoc.timeZone = timezone;
-            newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
-            console.log(newLoc);
-            this.locService.saveLocation(newLoc).subscribe(response => {
-              if (response.status >= 200 && response.status < 300) {
-                switch (this.locCount) {
-                  case 0:
-                    this.userSet.loc1 = response.body.locationId;
-                    break;
-                  case 1:
-                    this.userSet.loc2 = response.body.locationId;
-                    break;
-                  case 2:
-                    this.userSet.loc3 = response.body.locationId;
-                    this.userSet.loc4 = 0;
-                    this.userSet.loc5 = 0;
-                    this.saveSet();
-                    break;
-                  default:
-                    break;
-                }
-                this.locCount++;
-              } else {
-              }
-            });
+        const newLoc: Location = new Location;
+        newLoc.latitude = this.lat;
+        newLoc.longitude = this.lng;
+        newLoc.timeZone = timezone;
+        newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
+        this.locService.saveLocation(newLoc).subscribe(response => {
+          if (response.status >= 200 && response.status < 300) {
+            switch (this.locCount) {
+              case 0:
+                this.userSet.loc1 = response.body.locationId;
+                break;
+              case 1:
+                this.userSet.loc2 = response.body.locationId;
+                break;
+              case 2:
+                this.userSet.loc3 = response.body.locationId;
+                this.userSet.loc4 = 0;
+                this.userSet.loc5 = 0;
+                this.saveSet();
+                break;
+              default:
+                break;
+            }
+            this.locCount++;
           }
         });
       }
@@ -116,46 +101,6 @@ export class CreateSetComponent implements OnInit {
       });
   }
 
-  public getElevation() {
-    return this.http.get<Elevation>(
-      `https://maps.googleapis.com/maps/api/elevation/json?locations=${this.lat},${this.lng}&key=${this.apiKey}`, {
-        observe: 'response'
-      });
-  }
-/*
-  public saveLocation(timezone: string, altitude: number) {
-    console.log(`in save location: (lat: ${this.lat}, lng: ${this.lng}), timezone: ${timezone}, altitude: ${altitude}`);
-    const newLoc: Location = new Location;
-    newLoc.latitude = this.lat;
-    newLoc.longitude = this.lng;
-    newLoc.altitude = altitude;
-    newLoc.timeZone = timezone;
-    newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
-    console.log(newLoc);
-    this.locService.saveLocation(newLoc).subscribe(response => {
-      if (response.status >= 200 && response.status < 300) {
-        switch (this.locCount) {
-          case 0:
-            this.userSet.loc1 = response.body.locationId;
-            break;
-          case 1:
-            this.userSet.loc2 = response.body.locationId;
-            break;
-          case 2:
-            this.userSet.loc3 = response.body.locationId;
-            this.userSet.loc4 = 0;
-            this.userSet.loc5 = 0;
-            this.saveSet();
-            break;
-          default:
-            break;
-        }
-        this.locCount++;
-      } else {
-      }
-    });
-  }
-*/
   public saveSet() {
     this.locService.tempSet = this.userSet;
     this.bottomSheet.open(CreateSetBottomSheetComponent);
