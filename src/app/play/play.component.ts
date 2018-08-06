@@ -13,7 +13,10 @@ let points: number;
 let score: number;
 let randLoc: Location = new Location;
 let loggedUser: User;
-
+let hint = false;
+let show = true;
+let choice = 1;
+let message = '';
 @Component({
   selector: 'app-play',
   templateUrl: './play.component.html',
@@ -225,6 +228,36 @@ export class PlayComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  public getHint() {
+    loggedUser = JSON.parse(localStorage.getItem('user'));
+    console.log(loggedUser);
+    if (loggedUser.coins > 0) {
+      hint = true;
+      show = false;
+      loggedUser.coins -= 1;
+      choice = Math.floor(Math.random() * 2) + 1;
+      if ( choice === 1) {
+        this.panorama = new google.maps.StreetViewPanorama(
+          document.getElementById('panorama'), {
+            position: { lat: randLoc.latitude, lng: randLoc.longitude },
+            addressControl: false,
+            linksControl: true,
+            panControl: true,
+            enableCloseButton: false
+          });
+          message = 'The compas has been enabled for you!';
+      } else if (choice === 2) {
+        message = 'The Time Zone is: ' + randLoc.timeZone;
+      }
+      this.bottomSheet.open(PlayBottomSheetComponent);
+      this.bottomSheet._openedBottomSheetRef.afterDismissed().subscribe( (event) => {
+        show = true;
+        hint = false;
+      });
+    } else {
+    }
+  }
 }
 
 @Component({
@@ -235,10 +268,17 @@ export class PlayBottomSheetComponent {
   theDistance = Math.round(theDistance);
   points = points;
   score = score;
+  message = message;
+  hint = hint;
+  show = show;
   constructor(private bottomSheetRef: MatBottomSheetRef<PlayBottomSheetComponent>, private router: Router) { }
 
   newGame () {
     this.bottomSheetRef.dismiss();
     this.router.navigate(['play']);
+  }
+
+  gameHint () {
+    this.bottomSheetRef.dismiss();
   }
 }

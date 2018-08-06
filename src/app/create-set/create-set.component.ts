@@ -13,6 +13,7 @@ import { Timestamp } from '../models/timestamp';
 import { Elevation } from '../models/elevation';
 
 declare const google: any;
+const timestamp = 1331161200;
 
 @Component({
   selector: 'app-create-set',
@@ -28,17 +29,18 @@ export class CreateSetComponent implements OnInit {
   userSet: Set = new Set;
   locCount = 0;
 
+
   apiKey = 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0';
   timestamp = 1331161200;
 
   constructor(private locService: LocationService, private bottomSheet: MatBottomSheet, private http: HttpClient) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.initialize();
     this.userSet.authorId = JSON.parse(localStorage.getItem('user')).userId;
   }
 
-  public initialize() {
+  public initialize () {
     const fenway = { lat: 42.345573, lng: -71.098326 };
     const map = new google.maps.Map(document.getElementById('map'), {
       center: fenway,
@@ -101,7 +103,7 @@ export class CreateSetComponent implements OnInit {
       });
   }
 
-  public saveSet() {
+  public saveSet () {
     this.locService.tempSet = this.userSet;
     this.bottomSheet.open(CreateSetBottomSheetComponent);
   }
@@ -121,7 +123,7 @@ export class CreateSetBottomSheetComponent {
     Validators.required,
   ]);
 
-  submitSet() {
+  submitSet () {
     if (this.setNameFormControl.hasError('required')) {
     } else {
 
@@ -137,4 +139,3 @@ export class CreateSetBottomSheetComponent {
   }
 
 }
-
