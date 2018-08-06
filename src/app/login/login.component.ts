@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,15 @@ export class LoginComponent implements OnInit {
   loggedUser = localStorage.getItem('user');
   isValid = true;
 
-  hide = true;
+  hidePassword = true;
+
+  usernameFormControl = new FormControl('', [
+    Validators.required,
+  ]);
+
+  passwordFormControl = new FormControl('', [
+    Validators.required,
+  ]);
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -24,33 +33,20 @@ export class LoginComponent implements OnInit {
     }
   }
 
-    login() {
+  login() {
+
+    if (this.usernameFormControl.hasError('required') || this.passwordFormControl.hasError('required')) {
+      this.isValid = false;
+    } else {
       this.userService.loginUser(this.user).subscribe(response => {
-        console.log(`response status from login component: ` + response.status);
         if (response.status === 200) {
           this.isValid = true;
-          localStorage.setItem('user', JSON.stringify(this.user));
-          console.log(`User, ${this.user.username}, successfully logged in!`);
-          console.log(`local storage user: ` + localStorage.getItem('user'));
+          localStorage.setItem('user', JSON.stringify(response.body));
           this.router.navigate(['home']);
         } else {
           this.isValid = false;
         }
       });
     }
-  /*
-  login() {
-    this.userService.loginUser(this.user).subscribe(response => {
-      console.log(`response status from login component: ` + response.status);
-      if (response.status === 200) {
-        this.isValid = true;
-        localStorage.setItem('user', JSON.stringify(this.user));
-        console.log(`User, ${this.user.username}, successfully logged in!`);
-        console.log(`local storage user: ` + localStorage.getItem('user'));
-        this.router.navigate(['home']);
-      } else {
-        this.isValid = false;
-      }
-    });
-  }*/
+  }
 }

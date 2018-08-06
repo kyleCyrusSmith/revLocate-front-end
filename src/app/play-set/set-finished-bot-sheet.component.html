@@ -1,0 +1,22 @@
+<mat-nav-list>
+    <mat-card class="center-text">
+      <span>Congradulations you finished the set!</span>
+      <hr>
+      <span>Your total score: {{score}}</span>
+      <span>Sets Highscore: {{highScore}}</span>
+      <hr>
+      <span>Rate this set!</span>
+      <mat-slider
+        (input)="onInputChange($event)"
+        [max]="5"
+        [min]="0"
+        [step]="1"
+        [thumbLabel]="true"
+        [tickInterval]="1"
+        [(ngModel)]="value">
+    </mat-slider>
+    </mat-card>
+    <a mat-list-item (click)="nextLocation()">
+      <span mat-line style="text-align: center">Next Location</span>
+    </a>
+  </mat-nav-list>

@@ -1,8 +1,8 @@
-<div class="container centered col-5 shadow p-4 my-4 shadow bg-light rounded">
-  <h2 class="text-center">Register</h2>
+<div class="container centered col-5 shadow p-4 my-4 shadow rounded" color="secondary">
+  <h2 class="text-center">Profile</h2>
   <hr>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Email" [formControl]="emailFormControl" [(ngModel)]="user.email" (keyup.enter)="register()">
+    <input matInput placeholder="{{loggedUser.email}}" [formControl]="emailFormControl" [(ngModel)]="user.email" (keyup.enter)="updateProfile()">
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
       Please enter a valid email address
     </mat-error>
@@ -12,7 +12,7 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field class="form-group col centered">
-    <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="user.username" (keyup.enter)="register()">
+    <input matInput placeholder="{{loggedUser.username}}" [formControl]="usernameFormControl" [(ngModel)]="user.username" (keyup.enter)="updateProfile()">
     <mat-error *ngIf="usernameFormControl.hasError('required')">
       Username is
       <strong>required</strong>
@@ -20,7 +20,7 @@
   </mat-form-field>
   <mat-form-field class="form-group col centered">
     <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" [(ngModel)]="user.password"
-      (keyup.enter)="register()">
+      (keyup.enter)="updateProfile()">
     <mat-error *ngIf="passwordFormControl.hasError('required')">
       Password is
       <strong>required</strong>
@@ -29,7 +29,7 @@
   </mat-form-field>
   <mat-form-field class="form-group col centered">
     <input matInput placeholder="Confirm Password" [type]="hideConfirmPassword ? 'password' : 'text'" [formControl]="confirmPasswordFormControl"
-      [(ngModel)]="confirmedPassword" (keyup.enter)="register()">
+      (keyup.enter)="updateProfile()" [(ngModel)]="confirmedPassword">
     <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
       Confirmed password is
       <strong>required</strong>
@@ -41,7 +41,7 @@
     <mat-icon matSuffix color="primary" (click)="hideConfirmPassword = !hideConfirmPassword">{{hideConfirmPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
   </mat-form-field>
   <br>
-  <mat-toolbar class="justify-content-end d-flex bg-light">
+  <mat-toolbar class="justify-content-end d-flex">
     <span>
       <mat-toolbar *ngIf="!isValid" color="warn" id="formError">
         <font size="2"> Invalid or Missing Credentials! </font>
@@ -49,7 +49,7 @@
     </span>
     <span style="flex: 1 1 auto;"></span>
     <span>
-        <button mat-raised-button color="primary" (click)="register()">Register</button>
+      <button mat-raised-button color="primary" (click)="updateProfile()">Update</button>
     </span>
   </mat-toolbar>
 </div>
