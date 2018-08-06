@@ -1,0 +1,42 @@
+<mat-card class="container centered col-10 shadow p-4 my-4 shadow rounded" color="secondary">
+  <h2 class="text-center">Location Sets</h2>
+  <hr>
+  <mat-toolbar color="secondary">
+    <span>
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </span>
+  </mat-toolbar>
+  <mat-card class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="setName">
+        <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Set Name </mat-header-cell>
+        <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.setName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="rating">
+        <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Rating </mat-header-cell>
+        <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.rating}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="highscore">
+        <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Highscore </mat-header-cell>
+        <mat-cell *matCellDef="let setRating" class="justify-content-center"> {{setRating.highscore}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="snapshot">
+        <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Snapshot </mat-header-cell>
+        <mat-cell *matCellDef="let setRating" class="justify-content-center">
+          <img *ngIf="locationsRetrieved" src="https://maps.googleapis.com/maps/api/streetview?size=110x110&location={{setRating.location}}&fov=120&heading=0&pitch=8&key=AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0">
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openBottomSheet(row)"></mat-row>
+
+    </mat-table>
+    <mat-paginator [pageSize]="3"></mat-paginator>
+  </mat-card>
+</mat-card>

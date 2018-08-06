@@ -19,10 +19,14 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/revicon.ico",
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/revLocate-app-theme.scss"
+              },
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []

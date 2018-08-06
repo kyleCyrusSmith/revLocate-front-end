@@ -1,0 +1,32 @@
+<div class="container centered col-5 p-4 my-4 mat-elevation-z3 rounded bg-light">
+  <h2 class="text-center">Login</h2>
+  <hr>
+  <mat-form-field class="form-group col centered">
+    <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="user.username" (keyup.enter)="login()">
+    <mat-error *ngIf="usernameFormControl.hasError('required')">
+      Username is
+      <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="form-group col centered">
+    <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [formControl]="passwordFormControl" [(ngModel)]="user.password"
+      (keyup.enter)="login()">
+    <mat-error *ngIf="passwordFormControl.hasError('required')">
+      Password is
+      <strong>required</strong>
+    </mat-error>
+    <mat-icon matSuffix color="primary" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+  </mat-form-field>
+  <br>
+  <mat-toolbar class="justify-content-end d-flex bg-light">
+    <span>
+      <mat-toolbar *ngIf="!isValid" color="warn" id="formError">
+        <font size="2"> Invalid or Missing Credentials! </font>
+      </mat-toolbar>
+    </span>
+    <span style="flex: 1 1 auto;"></span>
+    <span>
+      <button mat-raised-button color="primary" (click)="login()">Login</button>
+    </span>
+  </mat-toolbar>
+</div>

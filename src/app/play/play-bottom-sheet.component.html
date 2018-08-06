@@ -1,0 +1,16 @@
+<mat-nav-list>
+  <mat-card *ngIf="show" class="center-text">
+    <span>Your guess was off by: {{theDistance}} km</span>
+    <mat-progress-bar mode="determinate" [value]="points"></mat-progress-bar>
+    <span>You recieved: {{score}} points for this guess.</span>
+  </mat-card>
+  <a mat-list-item *ngIf="show" (click)="newGame()">
+    <span mat-line style="text-align: center">New Game</span>
+  </a>
+  <mat-card *ngIf="hint" class="center-text">
+    <span>Your hint is: {{message}}</span>
+  </mat-card>
+  <a mat-list-item *ngIf="hint" (click)="gameHint()">
+    <span mat-line style="text-align: center">Dismiss</span>
+  </a>
+</mat-nav-list>
