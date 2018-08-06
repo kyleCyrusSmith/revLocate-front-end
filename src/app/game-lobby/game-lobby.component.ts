@@ -9,6 +9,7 @@ export interface PopularSet {
   location: String;
   locationId: Number;
   setName: String;
+  setId: Number;
   rating: Number;
   highscore: Number;
 }
@@ -27,7 +28,6 @@ export class GameLobbyComponent implements OnInit, DoCheck {
 
   popSetArr: PopularSet[] = [];
   locString: String;
-  testLocString = '42.35930583333334000,-71.16617388888892000';
 
   switched = false;
   locationsRetrieved = false;
@@ -60,7 +60,7 @@ export class GameLobbyComponent implements OnInit, DoCheck {
     let i;
     for (i = 0; i < allSets.length; i++) {
       this.popSetArr[i] = {
-        location: '', locationId: allSets[i].loc1, setName: allSets[i].name,
+        location: '', locationId: allSets[i].loc1, setName: allSets[i].name, setId: allSets[i].setId,
         rating: allSets[i].rating, highscore: allSets[i].highScore
       };
       console.log(this.popSetArr[i].location);
@@ -108,6 +108,12 @@ export class GameLobbyComponent implements OnInit, DoCheck {
     }
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
 }
 
 @Component({
@@ -116,20 +122,20 @@ export class GameLobbyComponent implements OnInit, DoCheck {
 })
 export class GameLobbyBottomSheetComponent {
 
-  displayedColumns: String[] = ['snapshot', 'setName', 'rating', 'highscore'];
+  displayedColumns: String[] = ['setName', 'rating', 'highscore'];
   dataSource: PopularSet[] = [{
     location: 'test', locationId: 0,
-    setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore
+    setName: rowClicked.setName, setId: rowClicked.setId, rating: rowClicked.rating, highscore: rowClicked.highscore
   }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<GameLobbyBottomSheetComponent>, private router: Router) { }
+  constructor(private locService: LocationService, private bottomSheetRef: MatBottomSheetRef<GameLobbyBottomSheetComponent>,
+    private router: Router) { }
 
   playSet() {
     console.log(`play set`);
     this.bottomSheetRef.dismiss();
-    this.router.navigate(['play']);
-    /* add a link to start a solo game of this set
-    */
+    localStorage.setItem('set', this.locService.getSet(this.dataSource[3]));
+    this.router.navigate(['play-set']);
   }
 
 }

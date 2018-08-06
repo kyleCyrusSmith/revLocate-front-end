@@ -1,5 +1,5 @@
 <mat-nav-list>
-    <mat-toolbar>
+    <mat-toolbar *ngIf="addingFriend">
         <span>
             <mat-form-field class="form-group col centered">
                 <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username" (keyup.enter)="addFriend()">
@@ -11,7 +11,27 @@
         </span>
     </mat-toolbar>
 
-    <a mat-list-item (click)="addFriend()">
+    <mat-table *ngIf="removingFriend" [dataSource]="dataSource" class="mat-elevation-z2">
+
+        <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef class="justify-content-center"> Username </mat-header-cell>
+            <mat-cell *matCellDef="let userScore" class="justify-content-center"> {{userScore.username}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="highscore">
+            <mat-header-cell *matHeaderCellDef class="justify-content-center"> Highscore </mat-header-cell>
+            <mat-cell *matCellDef="let userScore" class="justify-content-center"> {{userScore.highscore}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <a *ngIf="addingFriend" mat-list-item (click)="addFriend()">
         <span mat-line style="text-align: center">Add Friend</span>
+    </a>
+
+    <a *ngIf="removingFriend" mat-list-item (click)="removeFriend()">
+        <span mat-line style="text-align: center">Remove Friend</span>
     </a>
 </mat-nav-list>

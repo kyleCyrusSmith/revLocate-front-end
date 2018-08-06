@@ -42,6 +42,13 @@ export class LocationService {
     });
   }
 
+  public getSet(setId: Number){
+    return this.http.get<Set>(environment.apiUrl + `sets/${setId}`,{
+      headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
+      observe: 'response'
+    });
+  }
+
   public saveSet(newSet: Set) {
     console.log(`Attempting to save set: (${newSet})`);
     const json = JSON.stringify(newSet);
