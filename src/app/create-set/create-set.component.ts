@@ -9,6 +9,8 @@ import { Location } from '../models/location';
 import { Set } from '../models/set';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Timestamp } from '../models/timestamp';
+import { Elevation } from '../models/elevation';
 
 declare const google: any;
 
@@ -26,7 +28,10 @@ export class CreateSetComponent implements OnInit {
   userSet: Set = new Set;
   locCount = 0;
 
-  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet,private http: HttpClient) { }
+  apiKey = 'AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0';
+  timestamp = 1331161200;
+
+  constructor(private locService: LocationService, private bottomSheet: MatBottomSheet, private http: HttpClient) { }
 
   ngOnInit() {
     this.initialize();
@@ -54,45 +59,78 @@ export class CreateSetComponent implements OnInit {
       this.lng = panorama.getPosition().lng();
     });
   }
-  apiKey='AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0';
-  timestamp= 1331161200;
+
   public getApis() {
-   /* 2 strings for apis 
-    set both alt and timezone for newLoc*/
-    this.getTimezone().subscribe(response =>{
-      if (response.status >= 200 && response.status < 300) {
-     let timezone = response.body.timeZoneName;
-        this.getElevation().subscribe(response =>{
-          if (response.status >= 200 && response.status < 300) {
-            let altitude = response.body.elevation;
-            this.saveLocation(timezone, altitude);
+    /* 2 strings for apis
+     set both alt and timezone for newLoc*/
+    this.getTimezone().subscribe(timeResponse => {
+      if (timeResponse.status >= 200 && timeResponse.status < 300) {
+        console.log(`get timezone response: ${timeResponse.body.timeZoneName}`);
+        let timezone = timeResponse.body.timeZoneName;
+        this.getElevation().subscribe(elevationResponse => {
+          if (elevationResponse.status >= 200 && elevationResponse.status < 300) {
+            console.log(`get elevation response(body): ${elevationResponse.body}`);
+            console.log(`get elevation response(results): ${elevationResponse.body.results}`);
+            console.log(`get elevation response(results[0].elevation): ${elevationResponse.body.results[0].elevation}`);
+            let altitude = elevationResponse.body.results[0].elevation;
+            console.log(`in save location: (lat: ${this.lat}, lng: ${this.lng}), timezone: ${timezone}, altitude: ${altitude}`);
+            const newLoc: Location = new Location;
+            newLoc.latitude = this.lat;
+            newLoc.longitude = this.lng;
+            newLoc.altitude = altitude;
+            newLoc.timeZone = timezone;
+            newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
+            console.log(newLoc);
+            this.locService.saveLocation(newLoc).subscribe(response => {
+              if (response.status >= 200 && response.status < 300) {
+                switch (this.locCount) {
+                  case 0:
+                    this.userSet.loc1 = response.body.locationId;
+                    break;
+                  case 1:
+                    this.userSet.loc2 = response.body.locationId;
+                    break;
+                  case 2:
+                    this.userSet.loc3 = response.body.locationId;
+                    this.userSet.loc4 = 0;
+                    this.userSet.loc5 = 0;
+                    this.saveSet();
+                    break;
+                  default:
+                    break;
+                }
+                this.locCount++;
+              } else {
+              }
+            });
           }
         });
       }
     });
   }
 
-  public getTimezone(){
-    return this.http.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${this.lat},${this.lng}&timestamp=${this.timestamp}&key=${this.apiKey}`, {
-      observe: 'response'
-    });
+  public getTimezone() {
+    return this.http.get<Timestamp>(
+      `https://maps.googleapis.com/maps/api/timezone/json?location=${this.lat},${this.lng}&timestamp=${this.timestamp}&key=${this.apiKey}`, {
+        observe: 'response'
+      });
   }
 
-  public getElevation(){
-    return this.http.get<Object>(`https://maps.googleapis.com/maps/api/elevation/json?locations=${this.lat},${this.lng}&key=${this.apiKey}`, {
-      observe: 'response'
-    });
+  public getElevation() {
+    return this.http.get<Elevation>(
+      `https://maps.googleapis.com/maps/api/elevation/json?locations=${this.lat},${this.lng}&key=${this.apiKey}`, {
+        observe: 'response'
+      });
   }
-
-  public saveLocation(timezone:string, altitude:number) {
-    console.log(`in save location: ${this.lat}, ${this.lng}`);
+/*
+  public saveLocation(timezone: string, altitude: number) {
+    console.log(`in save location: (lat: ${this.lat}, lng: ${this.lng}), timezone: ${timezone}, altitude: ${altitude}`);
     const newLoc: Location = new Location;
     newLoc.latitude = this.lat;
     newLoc.longitude = this.lng;
     newLoc.altitude = altitude;
     newLoc.timeZone = timezone;
     newLoc.author = JSON.parse(localStorage.getItem('user')).userId;
-    //this.getApis();
     console.log(newLoc);
     this.locService.saveLocation(newLoc).subscribe(response => {
       if (response.status >= 200 && response.status < 300) {
@@ -117,7 +155,7 @@ export class CreateSetComponent implements OnInit {
       }
     });
   }
-
+*/
   public saveSet() {
     this.locService.tempSet = this.userSet;
     this.bottomSheet.open(CreateSetBottomSheetComponent);
