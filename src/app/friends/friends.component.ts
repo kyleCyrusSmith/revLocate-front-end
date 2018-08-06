@@ -46,7 +46,6 @@ export class FriendsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getFriendsList();
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
@@ -116,11 +115,11 @@ export class FriendsBottomSheetComponent {
 
   constructor(private userService: UserService, private bottomSheetRef: MatBottomSheetRef<FriendsBottomSheetComponent>,
     private router: Router) {
-      if (rowClicked.username === '') {
-        this.addingFriend = true;
-      } else {
-        this.removingFriend = true;
-      }
+    if (rowClicked.username === '') {
+      this.addingFriend = true;
+    } else {
+      this.removingFriend = true;
+    }
   }
 
   usernameFormControl = new FormControl('', [
@@ -133,20 +132,19 @@ export class FriendsBottomSheetComponent {
       this.userService.addFriend(JSON.parse(localStorage.getItem('user')), this.friend.username).subscribe(response => {
         if (response.status >= 200 && response.status < 300) {
           this.bottomSheetRef.dismiss();
-        } else {
+          this.refreshPage();
         }
       });
     }
-    this.refreshPage();
   }
 
   removeFriend() {
     this.userService.removeFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
       if (response.status >= 200 && response.status < 300) {
-      } else {
+        this.bottomSheetRef.dismiss();
+        this.refreshPage();
       }
     });
-    this.refreshPage();
   }
 
   refreshPage() {

@@ -223,7 +223,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
             currSet.highScore = setScore;
             this.locService.saveSet(currSet).subscribe(response => {
               if (response.status >= 200 && response.status < 300) {
-                localStorage.clear();
+                localStorage.removeItem('set');
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
@@ -238,7 +238,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
             this.locService.saveSet(currSet).subscribe(response => {
               console.log(response.status);
               if (response.status >= 200 && response.status < 300) {
-                localStorage.clear();
+                localStorage.removeItem('set');
                 localStorage.setItem('set', JSON.stringify(response.body));
                 loggedUser = JSON.parse(localStorage.getItem('set'));
               } else {
@@ -277,7 +277,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
     }
     this.userService.updateUser(loggedUser).subscribe(response => {
       if (response.status >= 200 && response.status < 300) {
-        localStorage.clear();
+        localStorage.removeItem('set');
         localStorage.setItem('user', JSON.stringify(response.body));
         loggedUser = JSON.parse(localStorage.getItem('user'));
       } else {
