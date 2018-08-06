@@ -69,15 +69,15 @@ export class CreateSetComponent implements OnInit {
         console.log(`New location successfully created!`);
         switch (this.locCount) {
           case 0:
-            this.userSet.loc1Id = response.body.locationId;
+            this.userSet.loc1 = response.body.locationId;
             break;
           case 1:
-            this.userSet.loc2Id = response.body.locationId;
+            this.userSet.loc2 = response.body.locationId;
             break;
           case 2:
-            this.userSet.loc3Id = response.body.locationId;
-            this.userSet.loc4Id = 0;
-            this.userSet.loc5Id = 0;
+            this.userSet.loc3 = response.body.locationId;
+            this.userSet.loc4 = 0;
+            this.userSet.loc5 = 0;
             this.saveSet();
             break;
           default:
@@ -117,19 +117,19 @@ export class CreateSetBottomSheetComponent {
     } else {
       console.log(`submit set: ${this.userSet}`);
 
-    this.locService.saveSet(this.userSet).subscribe(response => {
-      console.log(`response status from create set component: ` + response.status);
-      if (response.status >= 200 && response.status < 300) {
-        console.log(`New set successfully created!`);
-      this.bottomSheetRef.dismiss();
-      this.router.navigate(['home']);
-      } else {
-        console.log(`Location creation failed. Status code: ${response.status}`);
-        this.router.navigate(['home']);
-      }
-    });
-  }
+      this.locService.saveSet(this.userSet).subscribe(response => {
+        console.log(`response status from create set component: ` + response.status);
+        if (response.status >= 200 && response.status < 300) {
+          console.log(`New set successfully created!`);
+          this.bottomSheetRef.dismiss();
+          this.router.navigate(['home']);
+        } else {
+          console.log(`Location creation failed. Status code: ${response.status}`);
+          this.router.navigate(['home']);
+        }
+      });
     }
+  }
 
 }
 

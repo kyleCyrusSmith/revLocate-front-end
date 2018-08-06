@@ -1,3 +1,66 @@
+/*
+import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material';
+
+export interface LocationSet {
+  setName: String;
+  rating: Number;
+  highscore: Number;
+}
+
+let setClicked;
+
+@Component({
+  selector: 'app-test-lobby',
+  templateUrl: './test-lobby.component.html',
+  styleUrls: ['./test-lobby.component.css']
+})
+export class TestLobbyComponent implements OnInit {
+  // MatPaginator Inputs
+  length = 100; // Make call to server to get Number of sets
+  pageSize = 3;
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
+
+  constructor(private bottomSheet: MatBottomSheet) { }
+
+  openBottomSheet(row): void {
+    setClicked = row;
+    console.log(row);
+    this.bottomSheet.open(TestLobbyBottomSheetComponent);
+  }
+
+  ngOnInit() {
+  }
+
+}
+
+@Component({
+  selector: 'app-test-lobby-bottom-sheet',
+  templateUrl: './test-lobby-bottom-sheet.component.html',
+})
+export class TestLobbyBottomSheetComponent {
+
+  displayedColumns: String[] = ['setName', 'rating', 'highscore'];
+  dataSource: LocationSet = { setName: setClicked.setName, rating: setClicked.rating, highscore: setClicked.highscore };
+
+  constructor(private bottomSheetRef: MatBottomSheetRef<TestLobbyBottomSheetComponent>, private router: Router) { }
+
+  playSet() {
+    console.log(`play set`);
+    this.bottomSheetRef.dismiss();
+    this.router.navigate(['play']);
+    /* add a link to start a solo Test of this set
+    *-/
+  }
+
+}
+*/
+
+
 import { Component, OnInit, DoCheck, ViewChild } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
@@ -16,13 +79,14 @@ export interface PopularSet {
 let rowClicked;
 
 @Component({
-  selector: 'app-game-lobby',
-  templateUrl: './game-lobby.component.html',
-  styleUrls: ['./game-lobby.component.css']
+  selector: 'app-test-lobby',
+  templateUrl: './test-lobby.component.html',
+  styleUrls: ['./test-lobby.component.css']
 })
-export class GameLobbyComponent implements OnInit, DoCheck {
+export class TestLobbyComponent implements OnInit, DoCheck {
 
   displayedColumns: String[] = ['snapshot', 'setName', 'rating', 'highscore'];
+  // displayedColumns: String[] = ['setName', 'rating', 'highscore'];
   dataSource: MatTableDataSource<PopularSet>;
 
   popSetArr: PopularSet[] = [];
@@ -41,7 +105,7 @@ export class GameLobbyComponent implements OnInit, DoCheck {
       console.log(`response status from popular sets component: ` + response.status);
       if (response.status >= 200 && response.status < 300) {
         console.log(`all sets retrieved by popular set component`);
-        this.dataSource = new MatTableDataSource(this.getGameLobby(response.body));
+        this.dataSource = new MatTableDataSource(this.getTestLobby(response.body));
       } else {
         console.log(`popular set board did not retrieve all sets`);
       }
@@ -50,13 +114,13 @@ export class GameLobbyComponent implements OnInit, DoCheck {
 
   openBottomSheet(row): void {
     rowClicked = row;
-    this.bottomSheet.open(GameLobbyBottomSheetComponent);
+    this.bottomSheet.open(TestLobbyBottomSheetComponent);
   }
 
   ngOnInit() {
   }
 
-  getGameLobby(allSets: Set[]) {
+  getTestLobby(allSets: Set[]) {
     let i;
     for (i = 0; i < allSets.length; i++) {
       this.popSetArr[i] = {
@@ -73,25 +137,25 @@ export class GameLobbyComponent implements OnInit, DoCheck {
     let i = 0, j = 0;
     for (i = 0; i < this.popSetArr.length; i++) {
 
-      this.locService.getLocation(this.popSetArr[i].locationId).subscribe((response) => {
-        console.log(`response status from test lobby component: ` + response.status);
-        if (response.status >= 200 && response.status < 300) {
-          console.log(`location retrieved by test lobby component`);
-          this.locString = String(response.body.latitude) + ',' + String(response.body.longitude);
-          console.log(this.locString);
-          console.log(`i: ${i}, j: ${j}, arrLength: ${this.popSetArr.length}`);
-          this.popSetArr[j].location = this.locString;
-          j++;
-          if (j === (this.popSetArr.length)) {
-            this.locationsRetrieved = true;
-            console.log('LOCATIONSRETRIEVED set to true');
-          }
-        } else {
-          console.log(`popular set board did not retrieve all sets`);
-          this.locString = '42.35930583333334000,-71.16617388888892000';
+    this.locService.getLocation(this.popSetArr[i].locationId).subscribe((response) => {
+      console.log(`response status from test lobby component: ` + response.status);
+      if (response.status >= 200 && response.status < 300) {
+        console.log(`location retrieved by test lobby component`);
+        this.locString = String(response.body.latitude) + ',' + String(response.body.longitude);
+        console.log(this.locString);
+        console.log(`i: ${i}, j: ${j}, arrLength: ${this.popSetArr.length}`);
+        this.popSetArr[j].location = this.locString;
+        j++;
+        if (j === (this.popSetArr.length)) {
+          this.locationsRetrieved = true;
+          console.log('LOCATIONSRETRIEVED set to true');
         }
-      });
-    }
+      } else {
+        console.log(`popular set board did not retrieve all sets`);
+        this.locString = '42.35930583333334000,-71.16617388888892000';
+      }
+    });
+  }
     console.log(`just before return ` + this.locString);
     return this.popSetArr;
   }
@@ -111,18 +175,19 @@ export class GameLobbyComponent implements OnInit, DoCheck {
 }
 
 @Component({
-  selector: 'app-game-lobby-bottom-sheet',
-  templateUrl: './game-lobby-bottom-sheet.component.html',
+  selector: 'app-test-lobby-bottom-sheet',
+  templateUrl: './test-lobby-bottom-sheet.component.html',
 })
-export class GameLobbyBottomSheetComponent {
+export class TestLobbyBottomSheetComponent {
 
   displayedColumns: String[] = ['snapshot', 'setName', 'rating', 'highscore'];
+  // displayedColumns: String[] = ['setName', 'rating', 'highscore'];
   dataSource: PopularSet[] = [{
     location: 'test', locationId: 0,
     setName: rowClicked.setName, rating: rowClicked.rating, highscore: rowClicked.highscore
   }];
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<GameLobbyBottomSheetComponent>, private router: Router) { }
+  constructor(private bottomSheetRef: MatBottomSheetRef<TestLobbyBottomSheetComponent>, private router: Router) { }
 
   playSet() {
     console.log(`play set`);

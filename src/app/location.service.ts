@@ -26,7 +26,7 @@ export class LocationService {
     });
   }
 
-  public getLocation(locId: number) {
+  public getLocation(locId: Number) {
     console.log(`Attempting to get location: (${locId})`);
     return this.http.get<Location>(environment.apiUrl + `locations/${locId}`, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -47,6 +47,14 @@ export class LocationService {
     const json = JSON.stringify(newSet);
     console.log(`JSON: ` + json);
     return this.http.post<Set>(environment.apiUrl + 'sets/new', json, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      observe: 'response'
+    });
+  }
+
+  public getAllSets() {
+    console.log(`Getting all sets`);
+    return this.http.get<Set[]>(environment.apiUrl + 'sets', {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       observe: 'response'
     });

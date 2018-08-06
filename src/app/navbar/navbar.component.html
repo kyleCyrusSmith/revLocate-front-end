@@ -1,18 +1,24 @@
 <mat-toolbar class="rounded mat-elevation-z3" color="secondary">
-  <span><a class="navbar-brand"> <img src="../../assets/revLocateLogo.svg" alt="revLocate Logo" style="height: 64px;"></a></span>
-  <span *ngIf="loggedIn">
-      <a mat-button color="secondary" routerLink="/home"> Home </a>
-      <a mat-button color="secondary" routerLink="/play"> Play! (game) </a>
-      <a mat-button color="secondary" routerLink="/lobby"> Play! (lobby) </a>
-      <a mat-button color="secondary" routerLink="/create"> Create Set </a>
-      <a mat-button color="secondary" routerLink="/friends"> Friends </a>
-    </span>
-    <span style="flex: 1 1 auto;"></span>
-    <span *ngIf="loggedIn"> Total Score: {{totalScore}} </span>
   <span>
-      <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/login"> Login </a>
-      <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/register"> Register </a>
-      <a *ngIf="loggedIn" mat-button color="secondary" routerLink="/profile"> Profile </a>
-      <a *ngIf="loggedIn" mat-button color="secondary" (click)="ngOnInit()"> Logout </a>
-    </span>
+    <a class="navbar-brand">
+      <img src="../../assets/revLocateLogo.svg" alt="revLocate Logo" style="height: 64px;">
+    </a>
+  </span>
+  <span *ngIf="loggedIn">
+    <a mat-button color="secondary" routerLink="/home"> Home </a>
+    <a mat-button color="secondary" routerLink="/play"> Random Game </a>
+    <a mat-button color="secondary" routerLink="/lobby"> Play Set </a>
+    <a mat-button color="secondary" routerLink="/create"> Create Set </a>
+    <a mat-button color="secondary" routerLink="/friends"> Friends </a>
+  </span>
+  <span style="flex: 1 1 auto;"></span>
+  <span *ngIf="loggedIn"> revCoins: {{revCoins}} </span>
+  <span style="flex: 1 1 auto;"></span>
+  <span *ngIf="loggedIn"> Total Score: {{totalScore}} </span>
+  <span>
+    <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/login"> Login </a>
+    <a *ngIf="!loggedIn" mat-button color="secondary" routerLink="/register"> Register </a>
+    <a *ngIf="loggedIn" mat-button color="secondary" routerLink="/profile"> Profile </a>
+    <a *ngIf="loggedIn" mat-button color="secondary" (click)="ngOnInit()"> Logout </a>
+  </span>
 </mat-toolbar>

@@ -1,3 +1,23 @@
+<!--
+<h1 style="text-align: center" class="my-5">Playable Sets</h1>
+<div class="my-5">
+  <mat-toolbar *ngIf="switched" class="" style="height: 320px; overflow-x: hidden;">
+    <mat-card class="my-4 col-3" *ngFor="let data of dataSource.data">
+      <mat-card-header>
+        <div mat-card-avatar class="row"></div>
+        <span class="col" mat-line style="text-align: center">Shiba Inu Q</span>
+        <span class="col" mat-line style="text-align: center">Dog Breed</span>
+      </mat-card-header>
+      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" (click)="openBottomSheet(5)">
+    </mat-card>
+  </mat-toolbar>
+
+</div>
+
+<mat-paginator class="my-5" [pageSize]="3" (page)="pageEvent = $event">
+</mat-paginator>
+ -->
+
 <mat-card class="container centered col-10 shadow p-4 my-4 shadow rounded" color="secondary">
   <h2 class="text-center">Popular Sets</h2>
   <hr>
@@ -21,8 +41,8 @@
 
       <ng-container matColumnDef="snapshot">
         <mat-header-cell *matHeaderCellDef class="justify-content-center" mat-sort-header> Snapshot </mat-header-cell>
-        <mat-cell *matCellDef="let setRating" class="justify-content-center">
-          <img *ngIf="locationsRetrieved" src="https://maps.googleapis.com/maps/api/streetview?size=110x110&location={{setRating.location}}&fov=120&heading=0&pitch=8&key=AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0">
+        <mat-cell *matCellDef="let setRating" class="justify-content-center"> 
+          <img *ngIf="locationsRetrieved" src="https://maps.googleapis.com/maps/api/streetview?size=110x110&location={{setRating.location}}&fov=120&heading=0&pitch=8&key=AIzaSyA6IlYJER0nN4F9sCiOaaMPfjZndEsj0l0"> 
         </mat-cell>
       </ng-container>
 

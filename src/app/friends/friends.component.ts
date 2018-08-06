@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, DoCheck } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserService } from '../user.service';
@@ -35,17 +35,29 @@ let rowClicked;
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css']
 })
-export class FriendsComponent implements OnInit, AfterViewInit {
+export class FriendsComponent implements OnInit, DoCheck {
 
   displayedColumns: string[] = ['username', 'highscore'];
   dataSource: MatTableDataSource<UserScore>;
+
+  userScoreArr: UserScore[] = [];
+
+  switched = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private userService: UserService, private bottomSheet: MatBottomSheet) {
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(DUMMY_USER_SCORE_DATA);
+
+    this.userService.getAllFriends(JSON.parse(localStorage.getItem('user'))).subscribe(response => {
+      console.log(`response status from friends component: ` + response.status);
+      if (response.status >= 200 && 300) {
+        console.log(`all friends retrieved for user ${JSON.parse(localStorage.getItem('user')).username}`);
+        this.dataSource = new MatTableDataSource(this.getUserScores(response.body));
+      } else {
+        console.log(`friends component did not retrieve all users`);
+      }
+    });
   }
 
   openBottomSheet(row): void {
@@ -54,12 +66,23 @@ export class FriendsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.paginator.pageSize = 5;
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  getUserScores(allUsers: User[]) {
+    let i;
+    for (i = 0; i < allUsers.length; i++) {
+      this.userScoreArr[i] = { username: allUsers[i].username, highscore: allUsers[i].highScore };
+    }
+    return this.userScoreArr;
+  }
+
+  ngDoCheck() {
+    if (this.dataSource !== undefined && !this.switched) {
+      console.log(`hey from friends component`);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.switched = true;
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -90,7 +113,7 @@ export class FriendsBottomSheetComponent {
     if (this.usernameFormControl.hasError('required')) {
       console.log(`add friend sheet is missing fields`);
     } else {
-      this.userService.addFriend(JSON.parse(localStorage.getItem('user')), this.friend).subscribe(response => {
+      this.userService.addFriend(JSON.parse(localStorage.getItem('user')), this.friend.username).subscribe(response => {
         console.log(`response status from add friend bottom sheet component: ` + response.status);
         if (response.status >= 200 && response.status < 300) {
           console.log(`User, ${this.friend.username}, successfully added as friend!`);
@@ -102,14 +125,18 @@ export class FriendsBottomSheetComponent {
     }
   }
 
-}
+  removeFriend() {
+    console.log(`remove friend called`);
 
-function sortByScore(scoreArray: UserScore[]): UserScore[] {
-  return scoreArray.sort(function (a, b) {
-    const x = a.highscore;
-    const y = b.highscore;
-    if (x < y) { return -1; }
-    if (x > y) { return 1; }
-    return 0;
-  });
+    this.userService.removeFriend(JSON.parse(localStorage.getItem('user')), rowClicked.username).subscribe(response => {
+      console.log(`response status from add friend bottom sheet component: ` + response.status);
+      if (response.status >= 200 && response.status < 300) {
+        console.log(`User, ${rowClicked.username}, successfully removed as friend!`);
+        this.bottomSheetRef.dismiss();
+      } else {
+        console.log(`Unable to remove friend`);
+      }
+    });
+  }
+
 }

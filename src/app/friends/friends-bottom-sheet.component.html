@@ -1,13 +1,14 @@
 <mat-nav-list>
     <mat-toolbar>
         <span>
-                <mat-form-field class="form-group col centered">
-                  <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username">
-                  <mat-error *ngIf="usernameFormControl.hasError('required')">
+            <mat-form-field class="form-group col centered">
+                <input matInput placeholder="Username" [formControl]="usernameFormControl" [(ngModel)]="friend.username" (keyup.enter)="addFriend()">
+                <mat-error *ngIf="usernameFormControl.hasError('required')">
                     Username is
                     <strong>required</strong>
-                  </mat-error>
-                </mat-form-field></span>
+                </mat-error>
+            </mat-form-field>
+        </span>
     </mat-toolbar>
 
     <a mat-list-item (click)="addFriend()">

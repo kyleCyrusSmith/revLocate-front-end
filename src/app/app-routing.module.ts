@@ -27,7 +27,7 @@ const ROUTES: Routes = [
     component: RegisterComponent,
     runGuardsAndResolvers: 'always',
   },
-    {
+  {
     path: 'profile',
     component: ProfileComponent,
     runGuardsAndResolvers: 'always',
@@ -67,7 +67,7 @@ const ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(ROUTES, {onSameUrlNavigation: 'reload'})
+    RouterModule.forRoot(ROUTES, { onSameUrlNavigation: 'reload' })
   ],
   declarations: [],
   exports: [

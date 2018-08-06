@@ -1,12 +1,12 @@
 <mat-nav-list>
-    
-  <mat-form-field class="form-group col centered">
-        <input matInput placeholder="Set Name" [formControl]="setNameFormControl" [(ngModel)]="userSet.name">
+
+    <mat-form-field class="form-group col centered">
+        <input matInput placeholder="Set Name" [formControl]="setNameFormControl" [(ngModel)]="userSet.name" (keyup.enter)="submitSet()">
         <mat-error *ngIf="setNameFormControl.hasError('required')">
-          Set Name is
-          <strong>required</strong>
+            Set Name is
+            <strong>required</strong>
         </mat-error>
-      </mat-form-field>
+    </mat-form-field>
 
     <a mat-list-item (click)="submitSet()">
         <span mat-line style="text-align: center">Submit Set</span>
