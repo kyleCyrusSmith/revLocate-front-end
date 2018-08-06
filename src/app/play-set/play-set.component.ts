@@ -244,7 +244,7 @@ export class PlaySetComponent implements OnInit, OnDestroy {
               } else {
                 console.log(`Unable to update user`);
               }});
-            // this.router.navigate(['lobby']);
+              this.router.navigate(['lobby']);
             });
         }
       });
